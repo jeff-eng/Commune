@@ -41,6 +41,12 @@ class Asset(models.Model):
     def __str__(self):
         return self.name
 
+    def display_category(self):
+        """Create a string for the Category. This is required to display category in Admin."""
+        return ', '.join(category.name for category in self.category.all())
+    
+    display_category.short_description = 'Category'
+
 class AssetInstance(models.Model):
     # Unique identifier for an instance of an asset (a barcode of sorts)
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -54,4 +60,4 @@ class AssetInstance(models.Model):
         ordering = ['return_date']
 
     def __str__(self):
-        return f'ID#{self.uid} - {self.asset.name}'
+        return f'{self.uid} - {self.asset.name}'
