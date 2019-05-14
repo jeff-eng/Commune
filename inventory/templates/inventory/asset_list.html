@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block main %}
+
+    <h1>Inventory List Dashboard</h1>
+    {% if asset_list %}
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Description</th>
+        </thead>
+        {% for asset in asset_list %}
+        <tr>
+            <td>{{ asset.name }}</td>
+            <td>{{ asset.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!-- <ul>
+        {% for asset in asset_list %}
+        <li>
+            <h2>{{ asset.name }}</h2>
+            <p>{{ asset.description }}</p>
+        </li>
+        {% endfor %}
+    </ul> -->
+    {% else %}
+        <p>No assets in inventory.</p>
+    {% endif %}
+
+{% endblock %}

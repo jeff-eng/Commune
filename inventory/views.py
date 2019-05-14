@@ -19,3 +19,9 @@ def dashboard(request):
 
 def index(request):
     return render(request, 'index.html')
+
+
+from django.views import generic
+
+class DashboardListView(generic.ListView):
+    model = Asset
