@@ -7,8 +7,22 @@
 
         <title>Inventory - {% block title %}{% endblock %}</title>
     </head>
-
+    
     <body>
+        <header>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>User: {{ user.get_username }}</li>
+                    <!-- The ?next adds a URL parameter next containing the address (URL) of the current page, to the end of the linked URL -->
+                    <!-- The views  use the 'next' value to redirect the user back to the page where they first clicked the login/logout link -->
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <!-- ?next={{ request.path }} -->
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </header>
+        
         {% block main %}{% endblock %}
     </body>
 

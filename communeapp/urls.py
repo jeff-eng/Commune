@@ -24,5 +24,7 @@ urlpatterns = [
 
 # Directs to the urls.py file within the inventory app
 urlpatterns += [
-    path('dashboard/', include('inventory.urls')),
+    path('dashboard', include('inventory.urls')),
+    # Django site authentication URLs for login/logout/password management
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

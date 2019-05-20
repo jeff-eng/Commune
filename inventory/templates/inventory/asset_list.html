@@ -4,30 +4,22 @@
 
 {% block main %}
 
-    <h1>Inventory List Dashboard</h1>
-    {% if asset_list %}
-    <table>
-        <thead>
-            <th>Name</th>
-            <th>Description</th>
-        </thead>
-        {% for asset in asset_list %}
-        <tr>
-            <td>{{ asset.name }}</td>
-            <td>{{ asset.description }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <!-- <ul>
-        {% for asset in asset_list %}
-        <li>
-            <h2>{{ asset.name }}</h2>
-            <p>{{ asset.description }}</p>
-        </li>
-        {% endfor %}
-    </ul> -->
+    {% if asset_list and user.is_authenticated %}
+        <h1>{{ user.first_name }}'s Inventory List Dashboard</h1>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Description</th>
+            </thead>
+            {% for asset in asset_list %}
+                <tr>
+                    <td>{{ asset.name }}</td>
+                    <td>{{ asset.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% else %}
-        <p>No assets in inventory.</p>
+        <p>You must be logged in to view your inventory dashboard.</p>
     {% endif %}
 
 {% endblock %}
