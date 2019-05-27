@@ -10,11 +10,13 @@
             <thead>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Return Date</th>
             </thead>
             {% for asset in asset_list %}
                 <tr>
                     <td>{{ asset.name }}</td>
                     <td>{{ asset.description }}</td>
+                    <td>{{ asset.return_date }}</td>
                 </tr>
             {% endfor %}
         </table>
