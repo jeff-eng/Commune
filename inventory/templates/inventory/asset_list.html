@@ -11,12 +11,20 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Return Date</th>
+                <th>Borrower</th>
+                <th>Overdue</th>
             </thead>
             {% for asset in asset_list %}
                 <tr>
                     <td>{{ asset.name }}</td>
                     <td>{{ asset.description }}</td>
                     <td>{{ asset.return_date }}</td>
+                    <td>{{ asset.borrower }}</td>
+                    {% if asset.is_dueback %}
+                        <td>Yes</td>
+                    {% else %}
+                        <td>No</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
