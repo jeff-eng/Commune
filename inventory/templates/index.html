@@ -4,4 +4,8 @@
 
 {% block main %}
 <h1>Home</h1>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}">Go to my Dashboard</a>
+{% endif %}
 {% endblock %}
