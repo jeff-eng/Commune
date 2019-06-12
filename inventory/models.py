@@ -67,3 +67,6 @@ class Asset(models.Model):
 
     def __str__(self):
         return f'{self.uid} - {self.name}'
+
+    def get_absolute_url(self):
+        return reverse('asset-detail', args=[str(self.uid)])
