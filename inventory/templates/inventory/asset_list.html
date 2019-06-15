@@ -15,7 +15,7 @@
                 <th>Overdue</th>
             </thead>
             {% for asset in asset_list %}
-                <tr>
+                <tr data-uid="{{ asset.uid }}">
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
                     <td>{{ asset.description }}</td>
                     <td>{{ asset.return_date }}</td>

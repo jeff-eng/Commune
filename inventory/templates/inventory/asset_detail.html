@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+{% block title %} Details {% endblock %}
+
 {% block main %}
 {% if user.is_authenticated and user == asset.owner %}
 <h1>{{ asset.name }}</h1>
