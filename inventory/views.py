@@ -18,3 +18,6 @@ class DashboardListView(LoginRequiredMixin, generic.ListView):
 
     login_url = '/accounts/login'
     redirect_field_name = 'redirect_to'
+
+class AssetDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Asset

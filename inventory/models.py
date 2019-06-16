@@ -65,5 +65,8 @@ class Asset(models.Model):
     
     display_category.short_description = 'Category'
 
+    def get_absolute_url(self):
+        return reverse('asset-detail', args=[str(self.uid)])
+
     def __str__(self):
         return f'{self.uid} - {self.name}'
