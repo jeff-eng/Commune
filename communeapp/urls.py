@@ -19,12 +19,11 @@ import inventory.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', inventory.views.index),
+    path('', include('inventory.urls')),
 ]
 
 # Directs to the urls.py file within the inventory app
 urlpatterns += [
-    path('dashboard/', include('inventory.urls')),
     # Django site authentication URLs for login/logout/password management
     path('accounts/', include('django.contrib.auth.urls')),
 ]
