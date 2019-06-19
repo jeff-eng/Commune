@@ -9,7 +9,6 @@ import uuid
 
 class Category(models.Model):
     """Model representing an Asset category"""
-
     name = models.CharField(max_length=128)
 
     def __str__(self):
@@ -25,7 +24,6 @@ class Borrower(models.Model):
 
 class Asset(models.Model):
     """Model representing an Asset"""
-    # Unique identifier for an instance of an asset (a barcode of sorts)
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     manufacturer = models.CharField(max_length=64)
@@ -65,8 +63,8 @@ class Asset(models.Model):
     
     display_category.short_description = 'Category'
 
-    def __str__(self):
-        return f'{self.uid} - {self.name}'
-
     def get_absolute_url(self):
         return reverse('asset-detail', args=[str(self.uid)])
+    
+    def __str__(self):
+        return f'{self.uid} - {self.name}'

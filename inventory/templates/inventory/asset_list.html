@@ -15,7 +15,7 @@
                 <th>Overdue</th>
             </thead>
             {% for asset in asset_list %}
-                <tr data-uid="{{ asset.uid }}">
+                <tr>
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
                     <td>{{ asset.description }}</td>
                     <td>{{ asset.return_date }}</td>
@@ -25,11 +25,18 @@
                     {% else %}
                         <td>No</td>
                     {% endif %}
+                    <td>
+                        {% csrf_token %}
+                        <button class="returnButton" data-uid="{{ asset.uid }}">Mark as Returned</button>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
         <p>You must be logged in to view your inventory dashboard.</p>
     {% endif %}
+{% endblock %}
 
+{% block script %}
+    
 {% endblock %}
