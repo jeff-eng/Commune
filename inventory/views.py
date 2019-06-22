@@ -35,7 +35,11 @@ class AssetReturn(generic.View):
             asset.borrower = None
             print("Server was pinged.")
             asset.save()
-            data['message'] = "Asset returned!"
+            data = {
+                'checked_out': asset.checked_out,
+                'return_date': asset.return_date,
+                'borrower': asset.borrower,
+            }
         else:
             data['message'] = "Error!"
         return JsonResponse(data)

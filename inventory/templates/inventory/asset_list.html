@@ -9,7 +9,6 @@
         <table>
             <thead>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Return Date</th>
                 <th>Borrower</th>
                 <th>Overdue</th>
@@ -17,7 +16,6 @@
             {% for asset in asset_list %}
                 <tr>
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
-                    <td>{{ asset.description }}</td>
                     <td>{{ asset.return_date }}</td>
                     <td>{{ asset.borrower }}</td>
                     {% if asset.is_dueback %}

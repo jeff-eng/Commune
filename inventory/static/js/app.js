@@ -2,7 +2,8 @@ $(document).ready(() => {
     // Query the buttons
     $(".returnButton").click(function() {
         event.preventDefault();
-        let uid = $(this).data("uid");
+        let clickedButton = $(this);
+        let uid = clickedButton.data("uid");
         console.log("Return button clicked. " + uid);
 
         $.ajax({
@@ -10,7 +11,10 @@ $(document).ready(() => {
             type: 'post',
             dataType: 'json',
             success: function(data) {
-                console.log("Item returned.");
+                console.log(data);
+                
+ 
+
             }
         });
     });

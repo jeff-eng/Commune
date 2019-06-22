@@ -46,7 +46,8 @@ class Asset(models.Model):
         max_length=1,
         choices=CONDITION_TYPE,
         blank=True,
-        help_text='Asset condition')
+        help_text='Asset condition'
+    )
 
     class Meta:
             ordering = ['return_date']
