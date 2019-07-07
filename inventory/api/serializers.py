@@ -6,7 +6,16 @@ class BorrowerSerializer(serializers.ModelSerializer):
         model = Borrower
         fields = ('first_name',
                   'last_name',
+                  'associated_user'
         )
+    
+    def update(self, instance, validated_data):
+        print('Update method triggered.')
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.associated_user = validated_data.get('associated_user'. instance.associated_user)
+        instance.save()
+        return instance
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssetSerializer(serializers.ModelSerializer):
-    borrower = BorrowerSerializer(read_only=True)
+    borrower = BorrowerSerializer(allow_null=True)
     category = serializers.StringRelatedField(many=True)
     condition = serializers.CharField(source='get_condition_display')
     
@@ -31,3 +40,4 @@ class AssetSerializer(serializers.ModelSerializer):
                   'return_date',
                   'is_dueback',
         )
+        depth = 1

@@ -31,10 +31,12 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('api/v1/asset/', api_views.AssetList.as_view()),
+    path('api/v1/asset', api_views.AssetList.as_view()),
     path('api/v1/asset/create', api_views.AssetCreate.as_view(), name='asset_create'),
+    path('api/v1/asset/<uuid:uid>', api_views.AssetRetrieveUpdateDestroy.as_view()),
     path('api/v1/borrower/create', api_views.BorrowerCreate.as_view(), name='borrower_create'),
+    path('api/v1/borrower', api_views.BorrowerList.as_view()),
+    path('api/v1/borrower/<int:id>', api_views.BorrowerRetrieveUpdateDestroy.as_view()),
     path('api/v1/category/create', api_views.CategoryCreate.as_view(), name='category_create'),
-    path('api/v1/asset/<uuid:uid>/', api_views.AssetRetrieveUpdateDestroy.as_view()),
-    path('api/v1/category/', api_views.CategoryList.as_view()),
+    path('api/v1/category', api_views.CategoryList.as_view()),
 ]

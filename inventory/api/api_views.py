@@ -11,6 +11,13 @@ class AssetRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         user = self.request.user
         return Asset.objects.filter(owner=user)
 
+class BorrowerRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = BorrowerSerializer
+
+    def get_queryset(self):
+        return Borrower.objects.all()
+
 class AssetList(ListAPIView):
     serializer_class = AssetSerializer
 
@@ -20,6 +27,17 @@ class AssetList(ListAPIView):
         """
         user = self.request.user
         return Asset.objects.filter(owner=user)
+
+class CategoryList(ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+class BorrowerList(ListAPIView):
+    serializer_class = BorrowerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Borrower.objects.filter(associated_user=user)
 
 class AssetCreate(CreateAPIView):
     serializer_class = AssetSerializer
@@ -45,9 +63,5 @@ class BorrowerCreate(CreateAPIView):
         return Borrower.objects.filter(associated_user=user)
 
 class CategoryCreate(CreateAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-
-class CategoryList(ListAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()

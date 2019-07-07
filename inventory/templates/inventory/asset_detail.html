@@ -20,7 +20,11 @@
 <p>Condition: {{ asset.get_condition_display }}</p>
 {% if asset.return_date is not None %}
     <p>Due back: {{ asset.return_date }}</p>
+    {% csrf_token %}
+    <button class="return-btn" data-uid="{{ asset.uid }}">Mark as Returned</button>
 {% endif %}
 
 {% endif %}
 {% endblock %}
+
+{% block javascript %}{% endblock %}

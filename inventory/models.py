@@ -33,7 +33,7 @@ class Asset(models.Model):
     description = models.TextField()
     category = models.ManyToManyField(Category)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, null=True)
+    borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, null=True, blank=True)
     checked_out = models.BooleanField(default=False)
     return_date = models.DateField(null=True, blank=True)    
 
