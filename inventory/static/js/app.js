@@ -1,4 +1,8 @@
 $(document).ready(() => {
+    returnAsset();    
+});
+
+function returnAsset() {
     // Query the button
     $('.return-btn').click(function() {
         event.preventDefault();
@@ -19,10 +23,18 @@ $(document).ready(() => {
             dataType: 'json',
             success: function(data) {
                 console.log(data);
+                // Remove the 'due back' element from the DOM
+                $('#due-back-pg').remove();
+                // Remove the 'Marked as Returned' button from the DOM
+                $('.return-btn').remove();
+                alert('Item has been marked as returned.');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('ERROR: Unable to send HTTPRequest to server.');
             }
         });
     });
-});
+}
 
 // CSRF code
 function getCookie(name) {
