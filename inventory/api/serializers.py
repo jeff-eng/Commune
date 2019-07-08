@@ -41,3 +41,11 @@ class AssetSerializer(serializers.ModelSerializer):
                   'is_dueback',
         )
         depth = 1
+
+    def update(self, instance, validated_data):
+        instance.borrower = validated_data.get('borrower')
+        print('**BORROWER SET TO NULL**')
+        instance.return_date = validated_data.get('return_date')
+        instance.checked_out = validated_data.get('checked_out')
+        instance.save()
+        return instance
