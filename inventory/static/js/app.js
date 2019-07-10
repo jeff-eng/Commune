@@ -27,7 +27,7 @@ function returnAsset() {
                 $('#due-back-pg').remove();
                 // Remove the 'Marked as Returned' button from the DOM
                 $('.return-btn').remove();
-                alert('Item has been marked as returned.');
+                UIkit.notification('Item has been marked as returned.', {pos: 'top-center'});
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('ERROR: Unable to send HTTPRequest to server.');

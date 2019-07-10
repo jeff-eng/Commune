@@ -5,26 +5,37 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <title>Inventory - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
     </head>
     
     <body>
         <header>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li>User: {{ user.get_username }}</li>
-                    <!-- The ?next adds a URL parameter next containing the address (URL) of the current page, to the end of the linked URL -->
-                    <!-- The views  use the 'next' value to redirect the user back to the page where they first clicked the login/logout link -->
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <!-- ?next={{ request.path }} -->
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-            </ul>
+            <nav class="uk-navbar-container" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo" href="/"><span uk-icon="icon: uikit; ratio: 3"></span></a>
+                    <ul class="uk-navbar-nav">
+                        <li class="uk-active"><a href="/dashboard">My Dashboard</a></li>
+                        <li><a href="#">Nav Link 1</a></li>
+                        <li><a href="#">Nav Link 2</a></li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <ul class="uk-navbar-nav">
+                        {% if user.is_authenticated %}
+                            <li>Signed in as: {{ user.get_username }}</li>
+                            <li><a href="{% url 'logout' %}"><span uk-icon="icon: sign-out"></span>Log out</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>  
         </header>
         
         {% block main %}{% endblock %}
+        <script src="{% static 'js/uikit.min.js' %}"></script>
+        <script src="{% static 'js/uikit-icons.min.js' %}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="{% static 'js/app.js' %}"></script>
         {% block javascript %}{% endblock %}

@@ -5,19 +5,17 @@
 {% block main %}
 
     {% if asset_list and user.is_authenticated %}
-        <h1>{{ user.first_name }}'s Inventory List Dashboard</h1>
-        <table>
+        <h1>Dashboard</h1>
+        <table class="uk-table uk-table-divider uk-table-hover">
             <thead>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Return Date</th>
+                <th>Item Name</th>
                 <th>Borrower</th>
+                <th>Return Date</th>
                 <th>Overdue</th>
             </thead>
             {% for asset in asset_list %}
                 <tr data-uid="{{ asset.uid }}">
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
-                    <td>{{ asset.description }}</td>
                     <td>{{ asset.return_date }}</td>
                     <td>{{ asset.borrower }}</td>
                     {% if asset.is_dueback %}
