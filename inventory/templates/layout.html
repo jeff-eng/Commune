@@ -14,11 +14,19 @@
             <nav class="uk-navbar-container" uk-navbar>
                 <div class="uk-navbar-left">
                     <a class="uk-navbar-item uk-logo" href="/"><span uk-icon="icon: uikit; ratio: 3"></span></a>
+                    {% if user.is_authenticated %}
                     <ul class="uk-navbar-nav">
                         <li class="uk-active"><a href="/dashboard">My Dashboard</a></li>
+                        <li><a href="#">Signed in Nav Link 1</a></li>
+                        <li><a href="#">Signed in Nav Link 2</a></li>
+                    </ul>
+                    {% else %}
+                    <ul class="uk-navbar-nav">
                         <li><a href="#">Nav Link 1</a></li>
                         <li><a href="#">Nav Link 2</a></li>
+                        <li><a href="#">About</a></li>
                     </ul>
+                    {% endif %}
                 </div>
                 <div class="uk-navbar-right">
                     <ul class="uk-navbar-nav">
@@ -34,6 +42,9 @@
         </header>
         
         {% block main %}{% endblock %}
+        
+        <footer></footer>
+
         <script src="{% static 'js/uikit.min.js' %}"></script>
         <script src="{% static 'js/uikit-icons.min.js' %}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

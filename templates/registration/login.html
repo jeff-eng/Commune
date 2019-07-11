@@ -4,10 +4,6 @@
 
 {% block main %}
 
-{% if form.errors %}
-    <p>Your username and password didn't match.  Please try again.</p>
-{% endif %}
-
 {% if next %}
     {% if user.is_authenticated %}
         <p>Your account doesn't have access to this page.  To proceed, please login with an account that has access.</p>
@@ -16,22 +12,33 @@
     {% endif %}
 {% endif %}
 
-<form action="{% url 'login' %}" method="post">
-{% csrf_token %}
-<table>
-    <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-    </tr>
-</table>
-<input type="submit" value="login"/>
-<input type="hidden" name="next" value="{{ next }}"/>
-</form>
+<div class="uk-container">
+    <form class="uk-form" action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <input class="uk-input uk-form-width-1-2" type="text" name="username" autofocus required id="id_username" autocomplete="off">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <input class="uk-input uk-form-width-1-2" type="password" name="password" required id="id_password" autocomplete="off">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <input class="uk-input" type="submit" value="LOGIN">
+                <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+        </div>
+    </form>
+</div>
 
-<p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+{% if form.errors %}
+    <p>Your username and password didn't match.  Please try again.</p>
+{% endif %}
 
 {% endblock %}

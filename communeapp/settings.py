@@ -129,7 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Redirect to dashboard URL after login (Default redirects to /accounts/profile)
 LOGIN_REDIRECT_URL = '/dashboard'
-# Redirect to home URL after login
+# Redirect to home URL after logout
 LOGOUT_REDIRECT_URL = '/'
 
 # FOR TESTING ONLY #

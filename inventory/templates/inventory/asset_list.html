@@ -16,8 +16,8 @@
             {% for asset in asset_list %}
                 <tr data-uid="{{ asset.uid }}">
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
-                    <td>{{ asset.return_date }}</td>
                     <td>{{ asset.borrower }}</td>
+                    <td>{{ asset.return_date }}</td>
                     {% if asset.is_dueback %}
                         <td>Yes</td>
                     {% else %}

@@ -6,7 +6,6 @@ function returnAsset() {
     // Query the button
     $('.return-btn').click(function() {
         event.preventDefault();
-        alert('Return button clicked.');
         let clickedButton = $(this);
         let uid = clickedButton.data('uid');
         
@@ -27,7 +26,7 @@ function returnAsset() {
                 $('#due-back-pg').remove();
                 // Remove the 'Marked as Returned' button from the DOM
                 $('.return-btn').remove();
-                UIkit.notification('Item has been marked as returned.', {pos: 'top-center'});
+                UIkit.notification('Item has been marked as returned.', {pos: 'top-center', status: 'primary', timeout: 3000});
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('ERROR: Unable to send HTTPRequest to server.');
