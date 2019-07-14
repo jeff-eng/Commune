@@ -1,5 +1,6 @@
 $(document).ready(() => {
-    returnAsset();    
+    returnAsset();
+    
 });
 
 function returnAsset() {
@@ -34,6 +35,8 @@ function returnAsset() {
         });
     });
 }
+
+
 
 // CSRF code
 function getCookie(name) {

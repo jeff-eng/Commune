@@ -6,6 +6,45 @@
 
     {% if asset_list and user.is_authenticated %}
         <h1>Dashboard</h1>
+        <!-- This is a button toggling the modal -->
+        <button class="uk-button" uk-toggle="target: #add-asset-modal" type="button"><span uk-icon="icon: plus" uk-tooltip="title: Add Asset; pos: bottom; delay:"></span></button>
+        <!-- This is the modal -->
+        <div id="add-asset-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Add Asset</h2>
+                <form action="api/v1/asset/create" method="POST">
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" name="name" placeholder="Asset Name" required>
+                    </div>
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" name="manufacturer" placeholder="Manufacturer" required>
+                    </div>
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" name="model" placeholder="Model Name" required>
+                    </div>
+                    <div class="uk-margin">
+                        <!-- select element with option subelements - dynamically generate options using javascript after querying database for list of categories -->
+                    </div>
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea" name="description" id="" placeholder="Description"></textarea>
+                    </div>
+                    <div class="uk-margin">
+                        <!-- select element with dynamically generated condition types-->
+                        <select class="uk-select" name="condition" id="condition-dropdown">
+                            <option value="" disabled selected=>Select Condition</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <input class="uk-button uk-button-default uk-button-primary" type="submit" value="Add">
+                    </p>
+                </form>
+            </div>
+        </div>
         <table class="uk-table uk-table-divider uk-table-hover">
             <thead>
                 <th>Item Name</th>

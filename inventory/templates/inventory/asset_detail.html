@@ -6,9 +6,9 @@
 <a href="/dashboard"><span uk-icon="chevron-left"></span>Return to Dashboard</a>
 
 {% if user.is_authenticated and user == asset.owner %}
-<h1 class="uk-heading-divider">{{ asset.name }}</h1>
+<h1 class="uk-heading-divider uk-padding">{{ asset.name }}</h1>
 
-<dl class="uk-description-list uk-description-list-divider">
+<dl class="uk-description-list uk-description-list-divider uk-padding-large">
     <dt>Category</dt>
     <dd>
         {% for category in asset.category.all %}

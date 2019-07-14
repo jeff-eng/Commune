@@ -13,7 +13,7 @@
 {% endif %}
 
 <div class="uk-container">
-    <form class="uk-form" action="{% url 'login' %}" method="post">
+    <form class="uk-form" action="{% url 'login' %}" method="POST">
     {% csrf_token %}
         <div class="uk-margin">
             <div class="uk-inline">
