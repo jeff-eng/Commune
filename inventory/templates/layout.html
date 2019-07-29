@@ -17,8 +17,17 @@
                     {% if user.is_authenticated %}
                     <ul class="uk-navbar-nav">
                         <li class="uk-active"><a href="/dashboard">My Dashboard</a></li>
-                        <li><a href="#">Signed in Nav Link 1</a></li>
-                        <li><a href="#">Signed in Nav Link 2</a></li>
+                        <li>
+                            <a href="#">Manage Inventory</a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li class="uk-nav-header">Actions</li>
+                                    <li><a href="#"><span uk-icon="plus-circle"></span>  Add New Asset</a></li>
+                                    <li><a href="#"><span uk-icon="plus-circle"></span>  Add New Borrower</a></li>
+                                    <li><a href="#"><span uk-icon="pencil"></span>  Edit Asset</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                     {% else %}
                     <ul class="uk-navbar-nav">

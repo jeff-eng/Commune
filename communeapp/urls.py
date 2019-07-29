@@ -18,11 +18,14 @@ from django.urls import path, include
 from django.conf.urls import url
 from inventory.api import api_views
 import inventory.views
+from account.views import UserRegistrationView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Directs to the urls.py file within the inventory app
     path('', include('inventory.urls')),
+    path('register/', UserRegistrationView.as_view(), name='register')
 ]
 
 urlpatterns += [

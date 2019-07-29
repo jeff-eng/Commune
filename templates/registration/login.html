@@ -18,7 +18,7 @@
         <div class="uk-margin">
             <div class="uk-inline">
                 <span class="uk-form-icon" uk-icon="icon: user"></span>
-                <input class="uk-input uk-form-width-1-2" type="text" name="username" autofocus required id="id_username" autocomplete="off">
+                <input class="uk-input uk-form-width-1-2" type="text" name="username" placeholder="me@example.com" autofocus required id="id_username" autocomplete="off">
             </div>
         </div>
         <div class="uk-margin">
@@ -31,6 +31,7 @@
             <div class="uk-inline">
                 <input class="uk-input" type="submit" value="LOGIN">
                 <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+                <p><a href="{% url 'register' %}">Create New User Account</a></p>
                 <input type="hidden" name="next" value="{{ next }}">
             </div>
         </div>

@@ -25,7 +25,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class AssetSerializer(serializers.ModelSerializer):
     borrower = BorrowerSerializer(allow_null=True)
     category = serializers.StringRelatedField(many=True)
-    condition = serializers.CharField(source='get_condition_display')
+    condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g')
     
     class Meta:
         model = Asset

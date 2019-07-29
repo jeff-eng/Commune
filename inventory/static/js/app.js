@@ -27,6 +27,9 @@ function returnAsset() {
                 $('#due-back-pg').remove();
                 // Remove the 'Marked as Returned' button from the DOM
                 $('.return-btn').remove();
+                // 
+                $('#detail-borrower').html('None');
+                $('#detail-returndate').html('N/A');
                 UIkit.notification('Item has been marked as returned.', {pos: 'top-center', status: 'primary', timeout: 3000});
             },
             error: function(jqXHR, textStatus, errorThrown) {

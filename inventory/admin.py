@@ -13,12 +13,8 @@ admin.site.register(Category, CategoryAdmin)
 # Register the Admin classes for Asset using the decorator (does same thing as above with admin.site.register() )
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    list_display = ('uid', 
-                    'name', 
-                    'manufacturer', 
-                    'model', 
-                    'display_category', 
-                    'condition', 
+    list_display = ('name', 
+                    'display_category',
                     'checked_out', 
                     'return_date',
                     'is_dueback', 

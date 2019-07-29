@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Specifies the custom user model to be used for authentication
+AUTH_USER_MODEL = 'account.User'
 
 # Application definition
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'inventory',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'communedb',
         'USER': 'postgres',
-        'PASSWORD': 'KeepItSimpleStupid!',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432',
     }

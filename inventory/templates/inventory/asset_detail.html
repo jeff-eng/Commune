@@ -27,30 +27,17 @@
     <dd>{{ asset.get_condition_display }}</dd>
     <dt>Description</dt>
     <dd>{{ asset.description }}</dd>
-    <dt>Borrower</dt>
-    <dd>{{ asset.borrower }}</dd>
+    <dt >Borrower</dt>
+    <dd id="detail-borrower">{{ asset.borrower }}</dd>
     {% if asset.return_date is not None %}
         <dt>Due Back</dt>
-        <dd>{{ asset.return_date }}</dd>
+        <dd id="detail-returndate">{{ asset.return_date }}</dd>
         {% csrf_token %}
         <hr>
         <button class="return-btn uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button>
     {% endif %}
 </dl>
 
-
-<!-- <p>Category: 
-
-</p>
-<p>Manufacturer: {{ asset.manufacturer }}</p>
-<p>Model: {{ asset.model }}</p>
-<p>Description: {{ asset.description }}</p>
-<p>Condition: {{ asset.get_condition_display }}</p> -->
-<!-- {% if asset.return_date is not None %}
-    <p id="due-back-pg">Due back: {{ asset.return_date }}</p> -->
-    <!-- {% csrf_token %}
-    <button class="return-btn uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button> -->
-<!-- {% endif %} -->
 {% endif %}
 {% endblock %}
 

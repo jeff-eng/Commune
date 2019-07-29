@@ -2,37 +2,35 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from datetime import date
-from django.contrib.auth.models import User
 from django.urls import reverse
 
 import uuid
 
 class Category(models.Model):
     """Model representing an Asset category"""
-
     name = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
 
 class Borrower(models.Model):
+    """Model representing a Borrower"""
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=128)
-    associated_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    associated_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
 class Asset(models.Model):
     """Model representing an Asset"""
-    # Unique identifier for an instance of an asset (a barcode of sorts)
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     manufacturer = models.CharField(max_length=64)
     model = models.CharField(max_length=128)
     description = models.TextField()
     category = models.ManyToManyField(Category)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, null=True, blank=True)
     checked_out = models.BooleanField(default=False)
     return_date = models.DateField(null=True, blank=True)    
