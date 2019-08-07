@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title%}Add Borrower{% endblock %}
+
+{% block main %}
+<h1>Add Borrower</h1>
+<a href="#add-borrower-modal" id="add-borrower-btn" class="uk-icon-link" uk-icon="plus-circle" uk-toggle></a>
+<div id="add-borrower-modal" uk-modal>
+<div class="uk-modal-dialog uk-modal-body">
+<div class="uk-margin-left uk-margin-right">
+    <form id="borrower-create-form" class="uk-grid-small" uk-grid action="" method="POST">
+        {% csrf_token %}
+        <div class="uk-margin uk-margin-auto uk-width-1-2@s"> 
+            <label class="uk-form-label" for="firstname">Borrower's First Name</label>
+            <input id="first" class="uk-input" type="text" name="firstname">
+        </div>
+        <div class="uk-margin uk-margin-auto uk-width-1-2@s">
+            <label class="uk-form-label" for="lastname">Borrower's Last Name</label>
+            <input id="last" class="uk-input" type="text" name="lastname">
+        </div>
+        <div class="uk-margin-left uk-margin-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <input id="borrower-submit" type="submit" class="uk-button uk-button-default uk-margin-auto-right" name="create" data-pk="{{ user.id }}" value="Add">
+        </div>
+    </form>
+</div>
+</div>
+</div>
+<h2>Your List of Borrowers</h2>
+<table id="borrower-table" class="uk-table uk-table-divider">
+    <thead>
+        <tr>
+            <th>Borrower Name</th>
+        </tr>
+    </thead>
+</table>
+
+{% endblock %}
+
+{% block javascript %}
+<!-- Move this script to its own JS file at some point -->
+<script>
+    $('#add-borrower-btn').click(function() {
+        $('#borrower-create-form')[0].reset();
+    });
+</script>
+{% endblock %}

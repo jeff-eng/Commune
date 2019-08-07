@@ -4,6 +4,9 @@ from inventory.models import Category, Borrower, Asset
 def index(request):
     return render(request, 'index.html')
 
+def addborrower(request):
+    return render(request, 'inventory/addborrower.html')
+
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 

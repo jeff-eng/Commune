@@ -1,7 +1,50 @@
 $(document).ready(() => {
+    getBorrowerList();
     returnAsset();
-    
+    deleteAsset();
+    asyncAddBorrower();
 });
+
+function getBorrowerList() {
+    $.get('/api/v1/borrower', function(data, status) {
+        // Iterate through the values of array
+        for (x of data) {
+            console.log(x.first_name + ' ' + x.last_name);
+            let borrowerName = `${x.first_name} ${x.last_name}`;
+            $('#borrower-table').append(`<tr><td>${borrowerName}<td></tr>`);
+        }
+    });
+}
+
+function asyncAddBorrower() {
+    let borrowerForm = $('#borrower-create-form');
+    
+    borrowerForm.submit(function(event) {
+        event.preventDefault();
+        let borrowerData = {
+            'first_name': $('#first').val(),
+            'last_name': $('#last').val(),
+            'associated_user': $('#borrower-submit').data('pk')
+        };
+
+        $.ajax({
+            url: '/api/v1/borrower/create',
+            type: 'POST',
+            data: borrowerData,
+            dataType: 'json',
+            success: function(data) {
+                UIkit.notification('Borrower added!', {pos: 'top-center', status: 'primary', timeout: 3000});
+                // Add row to table for the borrower added to database
+                $('#borrower-table').append(`<tr><td>${borrowerData.first_name} ${borrowerData.last_name}<td></tr>`);
+                // Clear the form
+                borrowerForm[0].reset();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }
+        });
+    });
+}
 
 function returnAsset() {
     // Query the button
@@ -27,7 +70,7 @@ function returnAsset() {
                 $('#due-back-pg').remove();
                 // Remove the 'Marked as Returned' button from the DOM
                 $('.return-btn').remove();
-                // 
+                // Update text in tags
                 $('#detail-borrower').html('None');
                 $('#detail-returndate').html('N/A');
                 UIkit.notification('Item has been marked as returned.', {pos: 'top-center', status: 'primary', timeout: 3000});
@@ -39,7 +82,29 @@ function returnAsset() {
     });
 }
 
-
+function deleteAsset() {
+    $('#delete-btn').click(function() {
+        event.preventDefault();
+        let deleteButton = $(this);
+        let uid = deleteButton.data('uid');
+        // User confirmation of delete
+        event.target.blur();
+        UIkit.modal.confirm('Are you sure you want to delete this asset from your inventory?').then(function () {
+            console.log('Confirmed.');
+            $.ajax({
+                url: '/api/v1/asset/' + uid,
+                type: 'DELETE',
+                success: function(data) {
+                    UIkit.notification('Asset has been removed from your inventory.', {pos: 'top-center', status: 'primary', timeout: 3000});
+                    // Redirect to dashboard
+                    location.href = '/dashboard';
+                }
+            });
+        }, function() {
+            console.log('Rejected.');
+        });
+    });
+}
 
 // CSRF code
 function getCookie(name) {

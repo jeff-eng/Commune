@@ -14,13 +14,14 @@
         {% for category in asset.category.all %}
             {{ category }}
             {% if not forloop.last %}
-            <!-- Display a comma after each category except for last in list -->
                 / 
             {% endif %}
         {% endfor %}
     </dd>
     <dt>Manufacturer</dt>
     <dd>{{ asset.manufacturer }}</dd>
+    <dt>Owner's Primary Key</dt>
+    <dd>{{ asset.owner.id }}</dd>
     <dt>Model</dt>
     <dd>{{ asset.model }}</dd>
     <dt>Condition</dt>
@@ -36,6 +37,7 @@
         <hr>
         <button class="return-btn uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button>
     {% endif %}
+        <button id="delete-btn" class="uk-button uk-button-danger" data-uid="{{ asset.uid }}">Delete Asset</button>
 </dl>
 
 {% endif %}
