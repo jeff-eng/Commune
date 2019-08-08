@@ -1,11 +1,20 @@
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 from inventory.models import Category, Borrower, Asset
 
 def index(request):
     return render(request, 'index.html')
 
-def addborrower(request):
-    return render(request, 'inventory/addborrower.html')
+def add_borrower(request):
+    return render(request, 'inventory/add_borrower.html')
+
+class AddAssetView(TemplateView):
+    template_name = "inventory/add_asset.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin

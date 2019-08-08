@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Asset{% endblock%}
+
+{% block main %}
+<h1>Add New Asset</h1>
+
+<form action="/api/v1/asset/create" method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" required>
+    <input type="text" name="manufacturer" required>
+    <input type="text" name="model" required>
+    <textarea name="description" required></textarea>
+    <select name="condition" id="condition-select">
+        <option value="e">Excellent</option>
+        <option value="g">Good</option>
+        <option value="f">Fair</option>
+        <option value="p">Poor</option>
+    </select>
+    <select name="category" id="" multiple>
+        {% for category in categories %}
+        <option value="{{ category.pk }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
+{% endblock %}
