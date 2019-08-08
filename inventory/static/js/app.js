@@ -3,6 +3,7 @@ $(document).ready(() => {
     returnAsset();
     deleteAsset();
     asyncAddBorrower();
+    asyncAddAsset();
 });
 
 function getBorrowerList() {
@@ -13,6 +14,19 @@ function getBorrowerList() {
             let borrowerName = `${x.first_name} ${x.last_name}`;
             $('#borrower-table').append(`<tr><td>${borrowerName}<td></tr>`);
         }
+    });
+}
+
+function asyncAddAsset() {
+    $('#asset-create-form').submit(function(event) {
+        event.preventDefault();
+
+        $.post('/api/v1/asset/create', $('#asset-create-form').serialize(), function(data) {
+            console.log('success');
+
+            UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'primary', timeout: 3000});
+            location.href = '/dashboard';
+        });
     });
 }
 
