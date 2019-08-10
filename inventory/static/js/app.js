@@ -8,15 +8,32 @@ $(document).ready(() => {
 
 function getBorrowerList() {
     $.get('/api/v1/borrower', function(data, status) {
-        var borrower_names = data.map(function(borrower, index, array) {
-            return `${borrower.first_name} ${borrower.last_name}`;
+        // Create new array of objects with relevant info
+        var borrowers = data.map(function(borrower, index, array) {
+            return {
+                "pk": borrower.pk,
+                "name": `${borrower.first_name} ${borrower.last_name}`,
+            };
         });
-        if (borrower_names.length > 0) {
-            borrower_names.sort();
-            
-            for (name of borrower_names) {
 
-                $('#borrower-list').append($('<li></li>').text(name));
+        if (borrowers.length > 0) {
+            borrowers.sort((current, next) => {
+                let currentBorrower = current.name.toLowerCase();
+                let nextBorrower = next.name.toLowerCase();
+                
+                // Sort by name
+                if (currentBorrower < nextBorrower) {
+                    return -1;
+                } else if (currentBorrower > nextBorrower) {
+                    return 1;
+                }
+                // Names are equal
+                return 0;
+            });
+            
+            // Iterate through the sorted array and append item to unordered list
+            for (borrower of borrowers) {
+                $('#borrower-list').append($(`<li data-pk="${borrower.pk}"></li>`).text(borrower.name));
             }
         } else {
             $('#borrower-list').append('<li>No borrowers to display</li>');
@@ -63,7 +80,7 @@ function asyncAddBorrower() {
             .done(function(data) {
                 UIkit.notification('Borrower added!', {pos: 'top-center', status: 'success', timeout: 3000});
                 // Add borrower to the unordered list
-                $('#borrower-list').append($('<li></li>').text(`${borrowerData.first_name} ${borrowerData.last_name}`));
+                $('#borrower-list').append($(`<li data-pk="${borrowerData.pk}"></li>`).text(`${borrowerData.first_name} ${borrowerData.last_name}`));
                 // Clear the form
                 borrowerForm[0].reset();
             })

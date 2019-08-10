@@ -5,8 +5,8 @@ from inventory.models import Category, Borrower, Asset
 def index(request):
     return render(request, 'index.html')
 
-def add_borrower(request):
-    return render(request, 'inventory/add_borrower.html')
+def manage_borrowers(request):
+    return render(request, 'inventory/manage_borrowers.html')
 
 class AddAssetView(TemplateView):
     template_name = "inventory/add_asset.html"

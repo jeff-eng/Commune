@@ -17,7 +17,7 @@ class AssetRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
 class BorrowerRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     serializer_class = BorrowerSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return Borrower.objects.all()
