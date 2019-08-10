@@ -3,8 +3,7 @@
 {% block title%}Add Borrower{% endblock %}
 
 {% block main %}
-<h1>Add Borrower</h1>
-<a href="#add-borrower-modal" id="add-borrower-btn" class="uk-icon-link" uk-icon="plus-circle" uk-toggle></a>
+<h1 class="uk-margin-left uk-heading-divider">Add New Borrower</h1>
 <div id="add-borrower-modal" uk-modal>
 <div class="uk-modal-dialog uk-modal-body">
 <div class="uk-margin-left uk-margin-right">
@@ -20,21 +19,17 @@
         </div>
         <div class="uk-margin-left uk-margin-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <input id="borrower-submit" type="submit" class="uk-button uk-button-primary uk-margin-auto-right" name="create" data-pk="{{ user.id }}" value="Add">
+            <input id="borrower-submit" class="uk-button uk-button-primary uk-margin-auto-right" uk-toggle="target: #add-borrower-modal" type="submit" name="create" data-pk="{{ user.id }}" value="Add">
         </div>
     </form>
 </div>
 </div>
 </div>
-<h2>Your List of Borrowers</h2>
-<table id="borrower-table" class="uk-table uk-table-divider">
-    <thead>
-        <tr>
-            <th>Borrower Name</th>
-        </tr>
-    </thead>
-</table>
-
+<div class="uk-margin-left uk-margin-right">
+    <h2>Your List of Borrowers</h2>
+    <ul id="borrower-list" class="uk-list uk-list-divider"></ul>
+    <a href="#add-borrower-modal" id="add-borrower-btn" class="uk-icon-link" uk-icon="icon: plus-circle; ratio: 2" uk-tooltip="title: Add New Borrower to List; pos: right" uk-toggle></a>
+</div>
 {% endblock %}
 
 {% block javascript %}

@@ -8,11 +8,18 @@ $(document).ready(() => {
 
 function getBorrowerList() {
     $.get('/api/v1/borrower', function(data, status) {
-        // Iterate through the values of array
-        for (x of data) {
-            console.log(x.first_name + ' ' + x.last_name);
-            let borrowerName = `${x.first_name} ${x.last_name}`;
-            $('#borrower-table').append(`<tr><td>${borrowerName}<td></tr>`);
+        var borrower_names = data.map(function(borrower, index, array) {
+            return `${borrower.first_name} ${borrower.last_name}`;
+        });
+        if (borrower_names.length > 0) {
+            borrower_names.sort();
+            
+            for (name of borrower_names) {
+
+                $('#borrower-list').append($('<li></li>').text(name));
+            }
+        } else {
+            $('#borrower-list').append('<li>No borrowers to display</li>');
         }
     });
 }
@@ -23,10 +30,16 @@ function asyncAddAsset() {
 
         $.post('/api/v1/asset/create', $('#asset-create-form').serialize(), function(data) {
             console.log('success');
-
-            UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'primary', timeout: 3000});
-            location.href = '/dashboard';
-        });
+            
+            UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'success', timeout: 3000});
+            
+            setTimeout(function() {
+                location.href = '/dashboard';
+            }, 4000);
+        })
+            .fail(function() {
+                UIkit.notification('Error: Unable to create new asset.', {pos: 'top-center', status: 'danger', timeout: 3000});
+            });
     });
 }
 
@@ -45,18 +58,19 @@ function asyncAddBorrower() {
             url: '/api/v1/borrower/create',
             type: 'POST',
             data: borrowerData,
-            dataType: 'json',
-            success: function(data) {
-                UIkit.notification('Borrower added!', {pos: 'top-center', status: 'primary', timeout: 3000});
-                // Add row to table for the borrower added to database
-                $('#borrower-table').append(`<tr><td>${borrowerData.first_name} ${borrowerData.last_name}<td></tr>`);
+            dataType: 'json'
+        })
+            .done(function(data) {
+                UIkit.notification('Borrower added!', {pos: 'top-center', status: 'success', timeout: 3000});
+                // Add borrower to the unordered list
+                $('#borrower-list').append($('<li></li>').text(`${borrowerData.first_name} ${borrowerData.last_name}`));
                 // Clear the form
                 borrowerForm[0].reset();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(textStatus + ': ' + errorThrown);
-            }
-        });
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                UIkit.notification('Error: Unable to add borrower at this time. Try again.', {pos: 'top-center', status: 'danger', timeout: 3000});
+                borrowerForm[0].reset();
+            });
     });
 }
 

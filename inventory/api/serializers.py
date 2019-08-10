@@ -28,6 +28,7 @@ class AssetSerializer(serializers.ModelSerializer):
     borrower = BorrowerSerializer(allow_null=True, read_only=True)
     condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g')
     owner = serializers.ReadOnlyField(source='owner.username')
+    return_date = serializers.DateField(allow_null=True)
 
     class Meta:
         model = Asset
@@ -39,6 +40,7 @@ class AssetSerializer(serializers.ModelSerializer):
                   'condition',
                   'category',
                   'borrower',
+                  'return_date',
                   'is_dueback',
         )
 
