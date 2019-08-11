@@ -4,6 +4,7 @@ $(document).ready(() => {
     deleteAsset();
     asyncAddBorrower();
     asyncAddAsset();
+    deleteBorrower();
 });
 
 function getBorrowerList() {
@@ -33,7 +34,7 @@ function getBorrowerList() {
             
             // Iterate through the sorted array and append item to unordered list
             for (borrower of borrowers) {
-                $('#borrower-list').append($(`<li data-pk="${borrower.pk}"></li>`).text(borrower.name));
+                $('#borrower-list').append($(`<li data-pk="${borrower.pk}">${borrower.name} <a class="delete-borrower-btn" uk-icon="icon: minus-circle"></a></li>`));
             }
         } else {
             $('#borrower-list').append('<li>No borrowers to display</li>');
@@ -80,7 +81,7 @@ function asyncAddBorrower() {
             .done(function(data) {
                 UIkit.notification('Borrower added!', {pos: 'top-center', status: 'success', timeout: 3000});
                 // Add borrower to the unordered list
-                $('#borrower-list').append($(`<li data-pk="${borrowerData.pk}"></li>`).text(`${borrowerData.first_name} ${borrowerData.last_name}`));
+                $('#borrower-list').append($(`<li data-pk="${borrowerData.pk}"> <a class="delete-borrower-btn" uk-icon="icon: minus-circle"></a></li>`).text(`${borrowerData.first_name} ${borrowerData.last_name}`));
                 // Clear the form
                 borrowerForm[0].reset();
             })
@@ -88,6 +89,31 @@ function asyncAddBorrower() {
                 UIkit.notification('Error: Unable to add borrower at this time. Try again.', {pos: 'top-center', status: 'danger', timeout: 3000});
                 borrowerForm[0].reset();
             });
+    });
+}
+
+function deleteBorrower() {
+    $('#borrower-list').on('click', '.delete-borrower-btn', function() {
+        event.preventDefault();
+        let targetedListItem = $(this).parent()
+        let borrowerPrimaryKey = targetedListItem.data('pk');
+        console.log(borrowerPrimaryKey);
+
+        UIkit.modal.confirm('Are you sure you want to delete this borrower from your list?').then(function () {
+            $.ajax({
+                url: '/api/v1/borrower/' + borrowerPrimaryKey,
+                type: 'DELETE'
+            })
+                .done(function() {
+                    UIkit.notification('Deleted borrower from your list.', {pos: 'top-center', status: 'success', timeout: 3000});
+                    targetedListItem.remove();
+                })
+                .fail(function() {
+                    UIkit.notification('Error: Unable to delete borrower at this time. Try again.', {pos: 'top-center', status: 'danger', timeout: 3000});
+                });
+        }, function() {
+            console.log('Cancelled deletion.');
+        });
     });
 }
 
