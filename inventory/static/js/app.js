@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    populateAssetSelect();
     getBorrowerList();
     returnAsset();
     deleteAsset();
@@ -7,13 +8,58 @@ $(document).ready(() => {
     deleteBorrower();
 });
 
+function populateAssetSelect() {
+    let assets;
+    // GET request to REST API to retrieve array of asset objects
+    $.get('api/v1/asset', function(data, status) {
+ 
+        assets = data.map(function(asset, index, array) {
+            return {
+                'uid': asset.uid,
+                'name': asset.name,
+                'manufacturer': asset.manufacturer,
+                'model': asset.model,
+                'description': asset.description,
+                "condition": asset.condition,
+                "category": asset.category
+            }
+        });
+
+        // Populate the select dropdown
+        for (let [index, asset] of assets.entries()) {
+            $('#manage-asset-select').append($(`<option data-order="${index}">${asset.name}</option>`));
+        }
+    });
+
+    // Listen for the change event on the select dropdown
+    $('#manage-asset-select').change(function() {
+        event.preventDefault();
+        // Get the UID of the selected option
+        let assetIndex = $(this).find(':selected').data('order');
+        // Get the object for the item user selected in dropdown
+        let selectedAsset = assets[assetIndex];
+        // Assign the array from category property in selectedAsset to a named variable
+        let categories = selectedAsset.category;
+        // Dynamically populate form fields on option selection
+        $('#manage-asset-name-input').val(selectedAsset.name);
+        $('#manage-asset-manufacturer-input').val(selectedAsset.manufacturer);
+        $('#manage-asset-model-input').val(selectedAsset.model);
+        $('#manage-asset-description-textarea').val(selectedAsset.description);
+        $('#manage-asset-condition-select').val(selectedAsset.condition).change();
+        // Iterate through the array of category keys and perform DOM manipulation
+        for (category of categories) {
+            $('#manage-asset-category-select').val(categories).change();
+        }
+    });
+}
+
 function getBorrowerList() {
     $.get('/api/v1/borrower', function(data, status) {
         // Create new array of objects with relevant info
-        var borrowers = data.map(function(borrower, index, array) {
+        let borrowers = data.map(function(borrower, index, array) {
             return {
-                "pk": borrower.pk,
-                "name": `${borrower.first_name} ${borrower.last_name}`,
+                'pk': borrower.pk,
+                'name': `${borrower.first_name} ${borrower.last_name}`,
             };
         });
 

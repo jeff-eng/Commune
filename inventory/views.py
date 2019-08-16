@@ -8,8 +8,17 @@ def index(request):
 def manage_borrowers(request):
     return render(request, 'inventory/manage_borrowers.html')
 
+class ManageAssetsView(TemplateView):
+    template_name = 'inventory/manage_assets.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['assets'] = Asset.objects.all()
+        context['categories'] = Category.objects.all()
+        return context
+
 class AddAssetView(TemplateView):
-    template_name = "inventory/add_asset.html"
+    template_name = 'inventory/add_asset.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

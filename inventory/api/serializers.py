@@ -25,6 +25,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssetSerializer(serializers.ModelSerializer):
+    uid = serializers.UUIDField(read_only=True)
     borrower = BorrowerSerializer(allow_null=True, read_only=True)
     condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g')
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -32,7 +33,8 @@ class AssetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Asset
-        fields = ('name', 
+        fields = ('uid',
+                  'name', 
                   'manufacturer', 
                   'model',
                   'description',
