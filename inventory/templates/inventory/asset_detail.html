@@ -33,7 +33,7 @@
         <dd id="detail-returndate">{{ asset.return_date }}</dd>
         {% csrf_token %}
         <hr>
-        <button class="return-btn uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button>
+        <button id="return-btn" class="uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button>
     {% endif %}
         <button id="delete-btn" class="uk-button uk-button-danger" data-uid="{{ asset.uid }}">Delete Asset</button>
 </dl>

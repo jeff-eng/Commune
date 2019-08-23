@@ -20,16 +20,23 @@ class BorrowerSerializer(serializers.ModelSerializer):
         return instance
 
 class CategorySerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False, read_only=True)
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'name')
 
 class AssetSerializer(serializers.ModelSerializer):
-    uid = serializers.UUIDField(read_only=True)
+    name = serializers.CharField(allow_null=True)
+    description = serializers.CharField(allow_null=True)
+    manufacturer = serializers.CharField(allow_null=True)
+    uid = serializers.UUIDField(read_only=True, allow_null=True)
     borrower = BorrowerSerializer(allow_null=True, read_only=True)
-    condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g')
+    condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g', allow_null=True)
     owner = serializers.ReadOnlyField(source='owner.username')
     return_date = serializers.DateField(allow_null=True)
+    checked_out = serializers.BooleanField(allow_null=True)
+    category = CategorySerializer(required=False, many=True)
 
     class Meta:
         model = Asset
@@ -42,13 +49,24 @@ class AssetSerializer(serializers.ModelSerializer):
                   'condition',
                   'category',
                   'borrower',
+                  'checked_out',
                   'return_date',
                   'is_dueback',
         )
 
     def update(self, instance, validated_data):
-        instance.borrower = validated_data.get('borrower')
-        instance.return_date = validated_data.get('return_date')
-        instance.checked_out = validated_data.get('checked_out')
+        instance.borrower = validated_data.get('borrower', instance.borrower)
+        instance.return_date = validated_data.get('return_date', instance.return_date)
+        instance.checked_out = validated_data.get('checked_out', instance.checked_out)
+        
+        instance.name = validated_data.get('name', instance.name)
+        instance.manufacturer = validated_data.get('manufacturer', instance.manufacturer)
+        instance.model = validated_data.get('model', instance.model)
+        instance.description = validated_data.get('description', instance.description)
+        instance.condition = validated_data.get('condition', instance.condition)
+        instance.category = validated_data.get('category', instance.category)
         instance.save()
         return instance
+
+    def create(self, validated_data):
+        return Asset.objects.create(**validated_data)

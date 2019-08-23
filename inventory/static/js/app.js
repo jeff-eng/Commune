@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    saveAssetChanges();
     populateAssetSelect();
     getBorrowerList();
     returnAsset();
@@ -11,7 +12,7 @@ $(document).ready(() => {
 function populateAssetSelect() {
     let assets;
     // GET request to REST API to retrieve array of asset objects
-    $.get('api/v1/asset', function(data, status) {
+    $.get('/api/v1/asset', function(data, status) {
  
         assets = data.map(function(asset, index, array) {
             return {
@@ -27,7 +28,7 @@ function populateAssetSelect() {
 
         // Populate the select dropdown
         for (let [index, asset] of assets.entries()) {
-            $('#manage-asset-select').append($(`<option data-order="${index}">${asset.name}</option>`));
+            $('#manage-asset-select').append($(`<option data-order="${index}" data-uid="${asset.uid}">${asset.name}</option>`));
         }
     });
 
@@ -50,6 +51,45 @@ function populateAssetSelect() {
         for (category of categories) {
             $('#manage-asset-category-select').val(categories).change();
         }
+    });
+}
+
+function saveAssetChanges() {
+    $('#manage-asset-save-btn').click(function() {
+        event.preventDefault();
+
+        // Query the selected categories and 
+        let categories = [];
+        $.each($('select[name=category] option:selected'), function() {
+            categories.push(parseInt($(this).val()));
+        });
+        console.log(categories);
+
+        let uid = $('#manage-asset-select').find(':selected').data('uid');
+        let editedAsset = {
+            'name': $('input[name=name]').val(),
+            'manufacturer': $('input[name=manufacturer]').val(),
+            'model': $('input[name=model]').val(),
+            'description': $('textarea[name=description]').val(),
+            'condition': $('select[name=condition]').find(':selected').val(),
+            'category': categories
+        };
+
+        console.log('JSON sent to server: ', editedAsset);
+
+        $.ajax({
+            url: '/api/v1/asset/' + uid,
+            type: 'PATCH',
+            data: editedAsset,
+            dataType: 'json'
+        })
+            .done(function(data) {
+                console.log(data);
+                UIkit.notification('Changes saved.', {pos: 'top-center', status: 'success', timeout: 3000});
+            })
+            .fail(function() {
+                UIkit.notification('Unable to save changes at this time.', {pos: 'top-center', status: 'danger', timeout: 3000});
+            });
     });
 }
 
@@ -89,21 +129,54 @@ function getBorrowerList() {
 }
 
 function asyncAddAsset() {
-    $('#asset-create-form').submit(function(event) {
+    $('#asset-create-btn').click(function(event) {
         event.preventDefault();
 
-        $.post('/api/v1/asset/create', $('#asset-create-form').serialize(), function(data) {
-            console.log('success');
-            
-            UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'success', timeout: 3000});
-            
-            setTimeout(function() {
-                location.href = '/dashboard';
-            }, 4000);
+        // let categories = [];
+        // $.each($('select[name=category] option:selected'), function() {
+        //     categories.push(parseInt($(this).val()));
+        // });
+        // console.log(categories);
+
+        let newAssetData = {
+            'name': $('input[name=name]').val(),
+            'manufacturer': $('input[name=manufacturer]').val(),
+            'model': $('input[name=model]').val(),
+            'description': $('textarea[name=description]').val(),
+            'condition': $('select[name=condition] option:selected').val(),
+            'checked_out': false,
+            'return_date': null,
+            'category': 2
+            // 'category': [{'pk': 2}] // API won't even accept this value or values in an array
+        };
+
+        console.log(newAssetData);
+
+        $.ajax({
+            url: '/api/v1/asset/create',
+            type: 'POST',
+            data: newAssetData,
+            dataType: 'json'
         })
+            .done(function(data) {
+                console.log(data);
+            })
             .fail(function() {
-                UIkit.notification('Error: Unable to create new asset.', {pos: 'top-center', status: 'danger', timeout: 3000});
+                console.log('failed');
             });
+        // $.post('/api/v1/asset/create', newAssetData, function(data) {
+        //     console.log(data);
+        //     console.log('success');
+            
+        //     UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'success', timeout: 3000});
+            
+        //     setTimeout(function() {
+        //         location.href = '/dashboard';
+        //     }, 4000);
+        // })
+        //     .fail(function() {
+        //         UIkit.notification('Error: Unable to create new asset.', {pos: 'top-center', status: 'danger', timeout: 3000});
+        //     });
     });
 }
 
@@ -165,7 +238,7 @@ function deleteBorrower() {
 
 function returnAsset() {
     // Query the button
-    $('.return-btn').click(function() {
+    $('#return-btn').click(function() {
         event.preventDefault();
         let clickedButton = $(this);
         let uid = clickedButton.data('uid');
@@ -186,7 +259,7 @@ function returnAsset() {
                 // Remove the 'due back' element from the DOM
                 $('#due-back-pg').remove();
                 // Remove the 'Marked as Returned' button from the DOM
-                $('.return-btn').remove();
+                $('#return-btn').remove();
                 // Update text in tags
                 $('#detail-borrower').html('None');
                 $('#detail-returndate').html('N/A');
