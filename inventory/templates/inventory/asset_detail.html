@@ -10,14 +10,15 @@
 
 <dl class="uk-description-list uk-description-list-divider uk-padding-large">
     <dt>Category</dt>
-    <dd>
-        {% for category in asset.category.all %}
+    <dd>{{ asset.category }}
+
+        <!-- {% for category in asset.category.all %}
             {{ category }}
             {% if not forloop.last %}
                 / 
             {% endif %}
-        {% endfor %}
-    </dd>
+        {% endfor %} -->
+    <!-- </dd> -->
     <dt>Manufacturer</dt>
     <dd>{{ asset.manufacturer }}</dd>
     <dt>Model</dt>

@@ -39,6 +39,7 @@ function populateAssetSelect() {
         let assetIndex = $(this).find(':selected').data('order');
         // Get the object for the item user selected in dropdown
         let selectedAsset = assets[assetIndex];
+        console.log(selectedAsset);
         // Assign the array from category property in selectedAsset to a named variable
         let categories = selectedAsset.category;
         // Dynamically populate form fields on option selection
@@ -48,9 +49,10 @@ function populateAssetSelect() {
         $('#manage-asset-description-textarea').val(selectedAsset.description);
         $('#manage-asset-condition-select').val(selectedAsset.condition).change();
         // Iterate through the array of category keys and perform DOM manipulation
-        for (category of categories) {
-            $('#manage-asset-category-select').val(categories).change();
-        }
+        // for (category of categories) {
+        //     $('#manage-asset-category-select').val(categories).change();
+        // }
+        $('#manage-asset-category-select').val(selectedAsset.category).change();
     });
 }
 
@@ -59,11 +61,11 @@ function saveAssetChanges() {
         event.preventDefault();
 
         // Query the selected categories and 
-        let categories = [];
-        $.each($('select[name=category] option:selected'), function() {
-            categories.push(parseInt($(this).val()));
-        });
-        console.log(categories);
+        // let categories = [];
+        // $.each($('select[name=category] option:selected'), function() {
+        //     categories.push(parseInt($(this).val()));
+        // });
+        // console.log(categories);
 
         let uid = $('#manage-asset-select').find(':selected').data('uid');
         let editedAsset = {
@@ -72,7 +74,8 @@ function saveAssetChanges() {
             'model': $('input[name=model]').val(),
             'description': $('textarea[name=description]').val(),
             'condition': $('select[name=condition]').find(':selected').val(),
-            'category': categories
+            'category': parseInt($('select[name=category]').find(':selected').val())
+            // 'category': {'id': 1, 'name': 'Electronics'}
         };
 
         console.log('JSON sent to server: ', editedAsset);

@@ -29,7 +29,7 @@ class Asset(models.Model):
     manufacturer = models.CharField(max_length=64)
     model = models.CharField(max_length=128)
     description = models.TextField()
-    category = models.ManyToManyField(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=12)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, null=True, blank=True)
     checked_out = models.BooleanField(default=False)
@@ -59,7 +59,7 @@ class Asset(models.Model):
 
     def display_category(self):
         """Create a string for the Category. This is required to display category in Admin."""
-        return ', '.join(category.name for category in self.category.all())
+        return self.category.name
     
     display_category.short_description = 'Category'
 

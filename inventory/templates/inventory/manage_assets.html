@@ -44,8 +44,9 @@
             </select>
         </div>  
         <div class="uk-margin uk-margin-auto uk-width-1-2@s">
-                <label class="uk-form-label" for="name">Category(select all that apply)</label>
-                <select class="uk-select" name="category" id="manage-asset-category-select" multiple>
+                <label class="uk-form-label" for="name">Category</label>
+                <select class="uk-select" name="category" id="manage-asset-category-select">
+                    <option value="" selected disabled>Select Category</option>
                     {% for category in categories %}
                     <option value="{{ category.pk }}">{{ category.name }}</option>
                     {% endfor %}

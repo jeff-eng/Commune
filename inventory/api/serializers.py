@@ -20,11 +20,12 @@ class BorrowerSerializer(serializers.ModelSerializer):
         return instance
 
 class CategorySerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=False, read_only=True)
+    name = serializers.CharField(required=False)
+    pk = serializers.IntegerField(required=False)
 
     class Meta:
         model = Category
-        fields = ('id', 'name')
+        fields = ('pk', 'name')
 
 class AssetSerializer(serializers.ModelSerializer):
     name = serializers.CharField(allow_null=True)
@@ -36,7 +37,8 @@ class AssetSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     return_date = serializers.DateField(allow_null=True)
     checked_out = serializers.BooleanField(allow_null=True)
-    category = CategorySerializer(required=False, many=True)
+    # category = CategorySerializer(default=12)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
 
     class Meta:
         model = Asset
@@ -55,6 +57,8 @@ class AssetSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
+        print('VALIDATED DATA', validated_data)
+        print(self.context)
         instance.borrower = validated_data.get('borrower', instance.borrower)
         instance.return_date = validated_data.get('return_date', instance.return_date)
         instance.checked_out = validated_data.get('checked_out', instance.checked_out)
@@ -69,4 +73,5 @@ class AssetSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, validated_data):
+
         return Asset.objects.create(**validated_data)
