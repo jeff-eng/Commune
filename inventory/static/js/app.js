@@ -40,18 +40,13 @@ function populateAssetSelect() {
         // Get the object for the item user selected in dropdown
         let selectedAsset = assets[assetIndex];
         console.log(selectedAsset);
-        // Assign the array from category property in selectedAsset to a named variable
-        let categories = selectedAsset.category;
+
         // Dynamically populate form fields on option selection
         $('#manage-asset-name-input').val(selectedAsset.name);
         $('#manage-asset-manufacturer-input').val(selectedAsset.manufacturer);
         $('#manage-asset-model-input').val(selectedAsset.model);
         $('#manage-asset-description-textarea').val(selectedAsset.description);
         $('#manage-asset-condition-select').val(selectedAsset.condition).change();
-        // Iterate through the array of category keys and perform DOM manipulation
-        // for (category of categories) {
-        //     $('#manage-asset-category-select').val(categories).change();
-        // }
         $('#manage-asset-category-select').val(selectedAsset.category).change();
     });
 }
@@ -59,13 +54,6 @@ function populateAssetSelect() {
 function saveAssetChanges() {
     $('#manage-asset-save-btn').click(function() {
         event.preventDefault();
-
-        // Query the selected categories and 
-        // let categories = [];
-        // $.each($('select[name=category] option:selected'), function() {
-        //     categories.push(parseInt($(this).val()));
-        // });
-        // console.log(categories);
 
         let uid = $('#manage-asset-select').find(':selected').data('uid');
         let editedAsset = {
@@ -75,7 +63,6 @@ function saveAssetChanges() {
             'description': $('textarea[name=description]').val(),
             'condition': $('select[name=condition]').find(':selected').val(),
             'category': parseInt($('select[name=category]').find(':selected').val())
-            // 'category': {'id': 1, 'name': 'Electronics'}
         };
 
         console.log('JSON sent to server: ', editedAsset);
@@ -135,12 +122,6 @@ function asyncAddAsset() {
     $('#asset-create-btn').click(function(event) {
         event.preventDefault();
 
-        // let categories = [];
-        // $.each($('select[name=category] option:selected'), function() {
-        //     categories.push(parseInt($(this).val()));
-        // });
-        // console.log(categories);
-
         let newAssetData = {
             'name': $('input[name=name]').val(),
             'manufacturer': $('input[name=manufacturer]').val(),
@@ -149,37 +130,24 @@ function asyncAddAsset() {
             'condition': $('select[name=condition] option:selected').val(),
             'checked_out': false,
             'return_date': null,
-            'category': 2
-            // 'category': [{'pk': 2}] // API won't even accept this value or values in an array
+            'category': $('select[name=category] option:selected').val()
         };
 
         console.log(newAssetData);
 
-        $.ajax({
-            url: '/api/v1/asset/create',
-            type: 'POST',
-            data: newAssetData,
-            dataType: 'json'
+        $.post('/api/v1/asset/create', newAssetData, function(data) {
+            console.log(data);
+            console.log('success');
+            
+            UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'success', timeout: 3000});
+            
+            setTimeout(function() {
+                location.href = '/dashboard';
+            }, 4000);
         })
-            .done(function(data) {
-                console.log(data);
-            })
             .fail(function() {
-                console.log('failed');
+                UIkit.notification('Error: Unable to create new asset.', {pos: 'top-center', status: 'danger', timeout: 3000});
             });
-        // $.post('/api/v1/asset/create', newAssetData, function(data) {
-        //     console.log(data);
-        //     console.log('success');
-            
-        //     UIkit.notification('Successfully created new asset!', {pos: 'top-center', status: 'success', timeout: 3000});
-            
-        //     setTimeout(function() {
-        //         location.href = '/dashboard';
-        //     }, 4000);
-        // })
-        //     .fail(function() {
-        //         UIkit.notification('Error: Unable to create new asset.', {pos: 'top-center', status: 'danger', timeout: 3000});
-        //     });
     });
 }
 
@@ -194,6 +162,7 @@ function asyncAddBorrower() {
             'associated_user': $('#borrower-submit').data('pk')
         };
 
+        console.log(borrowerData);
         $.ajax({
             url: '/api/v1/borrower/create',
             type: 'POST',
@@ -203,7 +172,7 @@ function asyncAddBorrower() {
             .done(function(data) {
                 UIkit.notification('Borrower added!', {pos: 'top-center', status: 'success', timeout: 3000});
                 // Add borrower to the unordered list
-                $('#borrower-list').append($(`<li data-pk="${borrowerData.pk}"> <a class="delete-borrower-btn" uk-icon="icon: minus-circle"></a></li>`).text(`${borrowerData.first_name} ${borrowerData.last_name}`));
+                $('#borrower-list').append($(`<li data-pk="${data.pk}">${data.first_name} ${data.last_name} <a class="delete-borrower-btn" uk-icon="icon: minus-circle"></a></li>`));
                 // Clear the form
                 borrowerForm[0].reset();
             })
