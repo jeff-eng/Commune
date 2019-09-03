@@ -40,7 +40,7 @@ function populateAssetSelect() {
         // Get the object for the item user selected in dropdown
         let selectedAsset = assets[assetIndex];
         console.log(selectedAsset);
-
+        console.log(selectedAsset.uid);
         // Dynamically populate form fields on option selection
         $('#manage-asset-name-input').val(selectedAsset.name);
         $('#manage-asset-manufacturer-input').val(selectedAsset.manufacturer);
@@ -48,6 +48,9 @@ function populateAssetSelect() {
         $('#manage-asset-description-textarea').val(selectedAsset.description);
         $('#manage-asset-condition-select').val(selectedAsset.condition).change();
         $('#manage-asset-category-select').val(selectedAsset.category).change();
+
+        // Insert UID
+        $('#manage-asset-delete-btn').attr('data-uid', selectedAsset.uid);
     });
 }
 
@@ -245,7 +248,7 @@ function returnAsset() {
 }
 
 function deleteAsset() {
-    $('#delete-btn').click(function() {
+    $('.delete-asset-btn').click(function() {
         event.preventDefault();
         let deleteButton = $(this);
         let uid = deleteButton.data('uid');
