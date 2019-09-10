@@ -1,12 +1,15 @@
 $(document).ready(() => {
     saveAssetChanges();
     populateAssetSelect();
-    getBorrowerList();
+    asyncPopulateBorrowerList();
+    populateBorrowerDropdownSelect();
+    toggleCheckoutAssetButton();
     returnAsset();
     deleteAsset();
     asyncAddBorrower();
     asyncAddAsset();
     deleteBorrower();
+    checkOutAsset();
 });
 
 function populateAssetSelect() {
@@ -86,7 +89,7 @@ function saveAssetChanges() {
     });
 }
 
-function getBorrowerList() {
+function asyncPopulateBorrowerList() {
     $.get('/api/v1/borrower', function(data, status) {
         // Create new array of objects with relevant info
         let borrowers = data.map(function(borrower, index, array) {
@@ -133,6 +136,7 @@ function asyncAddAsset() {
             'condition': $('select[name=condition] option:selected').val(),
             'checked_out': false,
             'return_date': null,
+            'borrower': null,
             'category': $('select[name=category] option:selected').val()
         };
 
@@ -233,8 +237,10 @@ function returnAsset() {
                 console.log(data);
                 // Remove the 'due back' element from the DOM
                 $('#due-back-pg').remove();
-                // Remove the 'Marked as Returned' button from the DOM
-                $('#return-btn').remove();
+                // Disable the 'Marked as Returned' button
+                $('#return-btn').prop('disabled', true);
+                // Re-enable the 'Check Out Asset' button
+                $('#checkout-modal-btn').prop('disabled', false);
                 // Update text in tags
                 $('#detail-borrower').html('None');
                 $('#detail-returndate').html('N/A');
@@ -257,16 +263,97 @@ function deleteAsset() {
         UIkit.modal.confirm('Are you sure you want to delete this asset from your inventory?').then(function () {
             console.log('Confirmed.');
             $.ajax({
-                url: '/api/v1/asset/' + uid,
+                url: `/api/v1/asset/${uid}`,
                 type: 'DELETE',
                 success: function(data) {
                     UIkit.notification('Asset has been removed from your inventory.', {pos: 'top-center', status: 'primary', timeout: 3000});
                     // Redirect to dashboard
-                    location.href = '/dashboard';
+                    setTimeout(function() {
+                        location.href = '/dashboard';
+                    }, 4000);
                 }
             });
         }, function() {
             console.log('Rejected.');
+        });
+    });
+}
+
+// For checkout button on Asset Detail page
+function toggleCheckoutAssetButton() {
+    let uid = $('#asset-detail-header').data('uid');
+
+    // Toggle checkout button based on asset checked out status
+    $.get(`/api/v1/asset/${uid}`, function(data) {
+        let checkedOut = data.checked_out;
+        let checkoutModalBtn = $('#checkout-modal-btn');
+        
+        if (checkedOut) {
+            checkoutModalBtn.prop('disabled', true);
+        } else {
+            checkoutModalBtn.prop('disabled', false);
+        }
+    });
+}
+
+// Populates the borrower selection dropdown on the modal for asset checkout on Asset Detail page 
+function populateBorrowerDropdownSelect() {
+    $.get('/api/v1/borrower', function(borrowers) {
+        for (borrower of borrowers) {
+            $('#checkout-borrower-dropdown').append(`<option value="${borrower.pk}">${borrower.first_name} ${borrower.last_name}</option>`);
+        }
+    });
+}
+
+function checkOutAsset() {
+    $('#checkout-asset-form').submit(function() {
+        console.log('Checkout button clicked');
+        let uid = $('#asset-detail-header').data('uid');
+        console.log(uid);
+        event.preventDefault();
+        // Get the selected borrower from the form
+        let borrowerPK = parseInt($('#checkout-borrower-dropdown option:selected').val());
+        console.log(borrowerPK);
+        // Get the selected duration from the form
+        let duration = parseInt($('#checkout-duration-dropdown option:selected').val());
+        console.log(duration);
+
+        if (isNaN(borrowerPK) || isNaN(duration)) {
+            console.log('User did not select an option');
+            UIkit.notification('You must select both a borrower and duration. Try again.', {pos: 'top-center', status: 'danger', timeout: 3000});
+            return;
+        }
+        console.log('User did select both options');
+
+        // Calculate the return date using moment.js library based on the user's selected duration 
+        let calculatedReturnDate = moment().add(duration, 'days').format('YYYY-MM-DD');
+        console.log(calculatedReturnDate);
+
+        let updateData = {
+            'borrower': borrowerPK,
+            'checked_out': true,
+            'return_date': calculatedReturnDate
+        }
+
+        $.ajax({
+            url: `/api/v1/asset/${uid}`,
+            type: 'PATCH',
+            data: updateData,
+            dataType: 'json',
+            success: function(asset) {
+                console.log('Successfully checked out asset');
+                // Show user notification
+                UIkit.notification(`Successfully checked out ${asset.name}.`, {pos: 'top-center', status: 'success', timeout: 3000});
+                // Populate Borrower field
+                $('#detail-borrower').text(asset.borrower_name);
+                // Disable the 'check out asset' button
+                $('#checkout-modal-btn').prop('disabled', true);
+                // Enable 'mark as returned' button
+                $('#return-btn').prop('disabled', false);
+            },
+            error: function() {
+                UIkit.notification('Something went wrong. Unable to check out at this time.', {pos: 'top-center', status: 'danger', timeout: 3000});
+            }
         });
     });
 }

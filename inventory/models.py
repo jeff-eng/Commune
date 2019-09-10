@@ -56,6 +56,12 @@ class Asset(models.Model):
         if self.return_date and date.today() > self.return_date:
             return True
         return False
+    
+    @property
+    def borrower_name(self):
+        if self.borrower is not None:
+            return f'{self.borrower.first_name} {self.borrower.last_name}'
+        return 'None'
 
     def display_category(self):
         """Create a string for the Category. This is required to display category in Admin."""

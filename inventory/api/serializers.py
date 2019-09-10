@@ -32,12 +32,11 @@ class AssetSerializer(serializers.ModelSerializer):
     description = serializers.CharField(allow_null=True)
     manufacturer = serializers.CharField(allow_null=True)
     uid = serializers.UUIDField(read_only=True, allow_null=True)
-    borrower = BorrowerSerializer(allow_null=True, read_only=True)
+    borrower = serializers.PrimaryKeyRelatedField(allow_null=True, queryset=Borrower.objects.all())
     condition = serializers.ChoiceField(choices=Asset.CONDITION_TYPE, default='g', allow_null=True)
     owner = serializers.ReadOnlyField(source='owner.username')
     return_date = serializers.DateField(allow_null=True)
     checked_out = serializers.BooleanField(allow_null=True)
-    # category = CategorySerializer(default=12)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
 
     class Meta:
@@ -54,15 +53,13 @@ class AssetSerializer(serializers.ModelSerializer):
                   'checked_out',
                   'return_date',
                   'is_dueback',
+                  'borrower_name'
         )
 
     def update(self, instance, validated_data):
-        print('VALIDATED DATA', validated_data)
-        print(self.context)
         instance.borrower = validated_data.get('borrower', instance.borrower)
         instance.return_date = validated_data.get('return_date', instance.return_date)
-        instance.checked_out = validated_data.get('checked_out', instance.checked_out)
-        
+        instance.checked_out = validated_data.get('checked_out', instance.checked_out)        
         instance.name = validated_data.get('name', instance.name)
         instance.manufacturer = validated_data.get('manufacturer', instance.manufacturer)
         instance.model = validated_data.get('model', instance.model)

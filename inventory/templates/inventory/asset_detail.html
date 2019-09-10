@@ -6,8 +6,37 @@
 <a href="/dashboard"><span uk-icon="chevron-left"></span>Return to Dashboard</a>
 
 {% if user.is_authenticated and user == asset.owner %}
-<h1 class="uk-heading-divider uk-padding">{{ asset.name }}</h1>
+<h1 id="asset-detail-header" class="uk-heading-divider uk-padding" data-uid="{{ asset.uid }}">{{ asset.name }}</h1>
 
+<button uk-toggle="target: #checkout-asset-modal" id="checkout-modal-btn" class="uk-button uk-button-large uk-button-default">Check Out Asset</button>
+<div id="checkout-asset-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <div class="uk-margin-left uk-margin-right">
+            <form id="checkout-asset-form" class="uk-grid-small" uk-grid action="" method="">
+                {% csrf_token %}
+                <div class="uk-margin uk-margin-auto uk-width-1-2@s"> 
+                    <p>Check out asset to
+                        <select name="borrower" id="checkout-borrower-dropdown" class="uk-select">
+                            <option value="" disabled selected>--Select Borrower--</option>
+                        </select>
+                        for
+                        <select name="duration" id="checkout-duration-dropdown" class="uk-select">
+                            <option value="" disabled selected>--Specify Duration--</option>
+                            <option value="7">7 days</option>
+                            <option value="14">14 days</option>
+                            <option value="21">21 days</option>
+                            <option value="28">28 days</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="uk-margin-left uk-margin-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <input id="checkout-modal-btn" class="uk-button uk-button-primary uk-margin-auto-right" uk-toggle="target: #checkout-asset-modal" type="submit" name="create" data-pk="{{ user.id }}" value="Check Out Now">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <dl class="uk-description-list uk-description-list-divider uk-padding-large">
     <dt>Category</dt>
     <dd>{{ asset.category }}</dd>
@@ -21,12 +50,20 @@
     <dd>{{ asset.description }}</dd>
     <dt >Borrower</dt>
     <dd id="detail-borrower">{{ asset.borrower }}</dd>
-    {% if asset.return_date is not None %}
-        <dt>Due Back</dt>
-        <dd id="detail-returndate">{{ asset.return_date }}</dd>
+    <dt>Due Back</dt>
+    <dd id="detail-returndate">
+    {% if asset.return_date %}
+        {{ asset.return_date }}
+    {% else %}
+        N/A
+    {% endif %}
+    </dd>
         {% csrf_token %}
         <hr>
-        <button id="return-btn" class="uk-button uk-button-primary" data-uid="{{ asset.uid }}">Mark as Returned</button>
+    {% if asset.checked_out %}
+        <button id="return-btn" class="uk-button uk-button-secondary" data-uid="{{ asset.uid }}">Mark as Returned</button>
+    {% else %}
+        <button id="return-btn" class="uk-button uk-button-secondary" data-uid="{{ asset.uid }}" disabled>Mark as Returned</button>
     {% endif %}
         <button id="detail-delete-asset-btn" class="uk-button uk-button-danger delete-asset-btn" data-uid="{{ asset.uid }}">Delete Asset</button>
 </dl>
