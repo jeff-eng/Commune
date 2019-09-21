@@ -62,6 +62,11 @@ class Asset(models.Model):
         if self.borrower is not None:
             return f'{self.borrower.first_name} {self.borrower.last_name}'
         return 'None'
+    
+    @property
+    def formatted_return_date(self):
+        if self.return_date:
+            return f'{self.return_date}'
 
     def display_category(self):
         """Create a string for the Category. This is required to display category in Admin."""

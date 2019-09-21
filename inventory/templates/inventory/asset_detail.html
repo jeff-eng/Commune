@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block title %} Details {% endblock %}
-
 {% block main %}
 <a href="/dashboard"><span uk-icon="chevron-left"></span>Return to Dashboard</a>
 
 {% if user.is_authenticated and user == asset.owner %}
 <h1 id="asset-detail-header" class="uk-heading-divider uk-padding" data-uid="{{ asset.uid }}">{{ asset.name }}</h1>
 
-<button uk-toggle="target: #checkout-asset-modal" id="checkout-modal-btn" class="uk-button uk-button-large uk-button-default">Check Out Asset</button>
+<button uk-toggle="target: #checkout-asset-modal" id="checkout-modal-btn" class="uk-button uk-button-large uk-button-default uk-margin-left">Check Out Asset</button>
 <div id="checkout-asset-modal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <div class="uk-margin-left uk-margin-right">
@@ -53,7 +52,7 @@
     <dt>Due Back</dt>
     <dd id="detail-returndate">
     {% if asset.return_date %}
-        {{ asset.return_date }}
+        {{ asset.return_date|date:"F jS, Y" }}
     {% else %}
         N/A
     {% endif %}
@@ -67,8 +66,9 @@
     {% endif %}
         <button id="detail-delete-asset-btn" class="uk-button uk-button-danger delete-asset-btn" data-uid="{{ asset.uid }}">Delete Asset</button>
 </dl>
-
 {% endif %}
 {% endblock %}
-
-{% block javascript %}{% endblock %}
+{% block script %}
+    <script src="{% static 'js/asset-detail.app.js' %}"></script>
+    <script src="{% static 'js/delete-assets.app.js' %}"></script>
+{% endblock %}

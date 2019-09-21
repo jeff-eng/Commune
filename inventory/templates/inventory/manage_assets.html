@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block title%}Manage Assets{% endblock %}
-
 {% block main %}
 <h1 class="uk-margin-left uk-margin-right uk-heading-divider">Asset Management</h1>
 <form>
-    <div class="uk-margin">
+    <div class="uk-margin-left uk-margin-right">
         <select name="asset-select" id="manage-asset-select" class="uk-select">
             <option value="" disabled selected>--Select Asset for Details--</option>
         </select>
@@ -21,8 +20,8 @@
             <label class="uk-form-label" for="name" >Name</label>
             <input id="manage-asset-name-input" class="uk-input" type="text" name="name" required>
         </div>
-        <div class=class="uk-margin uk-margin-auto uk-width-1-3@s">
-            <label class="uk-form-label" for="manufacturer" >Manufacturer</label>
+        <div class="uk-margin uk-margin-auto uk-width-1-3@s">
+            <label class="uk-form-label" for="manufacturer">Manufacturer</label>
             <input id="manage-asset-manufacturer-input" class="uk-input" type="text" name="manufacturer" required>
         </div>
         <div class="uk-margin uk-margin-auto uk-width-1-3@s">
@@ -58,4 +57,8 @@
         </div>
     </form>
 </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/manage-assets.app.js' %}"></script>
+    <script src="{% static 'js/delete-assets.app.js' %}"></script>
 {% endblock %}

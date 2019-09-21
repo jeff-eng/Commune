@@ -70,5 +70,4 @@ class AssetSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, validated_data):
-
         return Asset.objects.create(**validated_data)

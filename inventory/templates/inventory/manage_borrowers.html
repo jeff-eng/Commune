@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block title%}Manage Borrowers{% endblock %}
-
 {% block main %}
 <h1 class="uk-margin-left uk-heading-divider">Borrower Management</h1>
 <div id="add-borrower-modal" uk-modal>
@@ -31,12 +30,6 @@
     <a href="#add-borrower-modal" id="add-borrower-btn" class="uk-icon-link" uk-icon="icon: plus-circle; ratio: 2" uk-tooltip="title: Add New Borrower to List; pos: right" uk-toggle></a>
 </div>
 {% endblock %}
-
-{% block javascript %}
-<!-- Move this script to its own JS file at some point -->
-<script>
-    $('#add-borrower-btn').click(function() {
-        $('#borrower-create-form')[0].reset();
-    });
-</script>
+{% block script %}
+    <script src="{% static 'js/manage-borrowers.app.js' %}"></script>
 {% endblock %}

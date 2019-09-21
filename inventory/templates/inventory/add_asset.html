@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block title %}Add Asset{% endblock%}
-
 {% block main %}
 <h1 class="uk-margin-left uk-heading-divider">Add New Asset to Inventory</h1>
 
@@ -48,4 +47,7 @@
         </div>
     </form>
 </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/add-asset.app.js' %}"></script>
 {% endblock %}

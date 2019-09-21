@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
-
 {% block title %}Dashboard{% endblock %}
-
 {% block main %}
-
     {% if user.is_authenticated %}
         <h1>Dashboard</h1>
             <table class="uk-table uk-table-divider uk-table-hover">
@@ -17,7 +14,7 @@
                 <tr data-uid="{{ asset.uid }}">
                     <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
                     <td>{{ asset.borrower }}</td>
-                    <td>{{ asset.return_date }}</td>
+                    <td>{{ asset.return_date|date:"F jS, Y" }}</td>
                     {% if asset.is_dueback %}
                         <td>Yes</td>
                     {% else %}
@@ -29,7 +26,5 @@
     {% else %}
         <p>You must be logged in to view your inventory dashboard.</p>
     {% endif %}
-
 {% endblock %}
-
-{% block javascript %}{% endblock %}
+{% block script %}{% endblock %}

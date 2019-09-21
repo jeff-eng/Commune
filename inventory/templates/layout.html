@@ -1,6 +1,5 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -13,7 +12,7 @@
         <header>
             <nav style="background-color: rgb(240, 239, 239)" class="uk-navbar-container" uk-navbar>
                 <div class="uk-navbar-left">
-                    <a class="uk-navbar-item uk-logo" href="/"><span uk-icon="icon: uikit; ratio: 3"></span></a>
+                    <a class="uk-navbar-item uk-logo" href="/"><span uk-icon="icon: grid; ratio: 3"></span></a>
                     {% if user.is_authenticated %}
                     <ul class="uk-navbar-nav">
                         <li class="uk-active"><a href="/dashboard">My Dashboard</a></li>
@@ -58,8 +57,8 @@
         <script src="{% static 'js/uikit-icons.min.js' %}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="{% static 'js/libraries/moment/moment.min.js' %}"></script>
-        <script src="{% static 'js/app.js' %}"></script>
-        {% block javascript %}{% endblock %}
+        <script src="{% static 'js/csrf.js' %}"></script>
+        {% block script %}{% endblock %}
     </body>
 
 </html>
