@@ -32,8 +32,7 @@ function returnAsset() {
     // Query the button
     $('#return-btn').click(function() {
         event.preventDefault();
-        let clickedButton = $(this);
-        let uid = clickedButton.data('uid');
+        let uid = $(this).data('uid');
         
         let updateData = {
             'borrower': null,
@@ -95,7 +94,7 @@ function checkOutAsset() {
             dataType: 'json',
             success: function(asset) {
                 // Show user notification
-                UIkit.notification(`Successfully checked out ${asset.name}.`, {pos: 'top-center', status: 'success', timeout: 3000});
+                UIkit.notification(`Successfully checked out ${asset.name} to ${asset.borrower}.`, {pos: 'top-center', status: 'success', timeout: 3000});
                 
                 setTimeout(function() {
                     location.reload();
@@ -104,10 +103,9 @@ function checkOutAsset() {
                 checkoutAssetForm[0].reset();
             },
             error: function() {
-                UIkit.notification('Something went wrong. Unable to check out at this time.', {pos: 'top-center', status: 'danger', timeout: 3000});
+                UIkit.notification('Error. Unable to check out at this time.', {pos: 'top-center', status: 'danger', timeout: 3000});
                 checkoutAssetForm[0].reset();
             }
         });
     });
 }
-
