@@ -13,18 +13,18 @@
 {% endif %}
 
 <div class="uk-container">
-    <form class="uk-form" action="{% url 'login' %}" method="POST">
+    <form class="uk-form uk-position-relative uk-position-top-center" action="{% url 'login' %}" method="POST">
     {% csrf_token %}
         <div class="uk-margin">
             <div class="uk-inline">
                 <span class="uk-form-icon" uk-icon="icon: user"></span>
-                <input class="uk-input uk-form-width-1-2" type="text" name="username" placeholder="me@example.com" autofocus required id="id_username" autocomplete="off">
+                <input class="uk-input uk-form-width-large" type="text" name="username" placeholder="me@example.com" autofocus required id="id_username" autocomplete="off">
             </div>
         </div>
         <div class="uk-margin">
             <div class="uk-inline">
                 <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                <input class="uk-input uk-form-width-1-2" type="password" name="password" required id="id_password" autocomplete="off">
+                <input class="uk-input uk-form-width-large" type="password" name="password" placeholder="Enter Password" required id="id_password" autocomplete="off">
             </div>
         </div>
         <div class="uk-margin">
@@ -39,7 +39,7 @@
 </div>
 
 {% if form.errors %}
-    <p>Your username and password didn't match.  Please try again.</p>
+    <p class="uk-padding-small uk-alert-danger">Unable to log in with those credentials. Try again.</p>
 {% endif %}
 
 {% endblock %}

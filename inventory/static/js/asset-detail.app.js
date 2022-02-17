@@ -94,7 +94,7 @@ function checkOutAsset() {
             dataType: 'json',
             success: function(asset) {
                 // Show user notification
-                UIkit.notification(`Successfully checked out ${asset.name} to ${asset.borrower}.`, {pos: 'top-center', status: 'success', timeout: 3000});
+                UIkit.notification(`Successfully checked out ${asset.name} to ${asset.borrower_name}.`, {pos: 'top-center', status: 'success', timeout: 3000});
                 
                 setTimeout(function() {
                     location.reload();

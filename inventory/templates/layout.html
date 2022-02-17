@@ -12,12 +12,12 @@
         <header>
             <nav style="background-color: rgb(240, 239, 239)" class="uk-navbar-container" uk-navbar>
                 <div class="uk-navbar-left">
-                    <a class="uk-navbar-item uk-logo" href="/"><span uk-icon="icon: grid; ratio: 3"></span></a>
+                    <a class="uk-navbar-item uk-logo" href="/" alt="Home Page"><span uk-icon="icon: database; ratio: 3"></span></a>
                     {% if user.is_authenticated %}
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="/dashboard">My Dashboard</a></li>
+                        <li class="uk-active"><a href="/dashboard">Dashboard</a></li>
                         <li>
-                            <a href="#">Manage Inventory</a>
+                            <a href="#">Manage</a>
                             <div class="uk-navbar-dropdown">
                                 <ul class="uk-nav uk-navbar-dropdown-nav">
                                     <li class="uk-nav-header">Actions</li>
@@ -30,22 +30,21 @@
                     </ul>
                     {% else %}
                     <ul class="uk-navbar-nav">
-                        <li><a href="#">Nav Link 1</a></li>
-                        <li><a href="#">Nav Link 2</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="/register">Sign Up</a></li>
                     </ul>
                     {% endif %}
                 </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        {% if user.is_authenticated %}
-                            <li>Signed in as: {{ user.get_username }}</li>
-                            <li><a href="{% url 'logout' %}"><span uk-icon="icon: sign-out"></span>Log out</a></li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                        {% endif %}
+                {% if user.is_authenticated %}
+                <button class="uk-margin-right uk-button uk-button-link uk-position-right" type="button"><span uk-icon="icon: cog"></span></button>
+                <div uk-dropdown="mode: click; pos: top-right; offset: 10">
+                    <p>Hello, {{ user.get_username }}!</p>
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <li><a href="#">Change Password</a></li>
+                        <li><a href="{% url 'logout' %}" class="uk-icon" uk-icon="sign-out">Logout</a></li>
                     </ul>
                 </div>
+                {% endif %}
             </nav>  
         </header>
         
