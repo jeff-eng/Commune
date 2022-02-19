@@ -28,7 +28,7 @@
                         </select>
                     </p>
                 </div>
-                <div class="uk-margin-left uk-margin-right">
+                <div class="uk-margin uk-margin-auto">
                     <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
                     <input id="checkout-modal-btn" class="uk-button uk-button-primary uk-margin-auto-right" uk-toggle="target: #checkout-asset-modal" type="submit" name="create" data-pk="{{ user.id }}" value="Check Out Now">
                 </div>
@@ -59,12 +59,14 @@
     </dd>
         {% csrf_token %}
         <hr>
+    <div class="">
     {% if asset.checked_out %}
-        <button id="return-btn" class="uk-button uk-button-secondary" data-uid="{{ asset.uid }}">Mark as Returned</button>
+        <button id="return-btn" class="uk-margin-small-top uk-button uk-button-secondary" data-uid="{{ asset.uid }}">Mark as Returned</button>
     {% else %}
-        <button id="return-btn" class="uk-button uk-button-secondary" data-uid="{{ asset.uid }}" disabled>Mark as Returned</button>
+        <button id="return-btn" class="uk-margin-small-top uk-button uk-button-secondary" data-uid="{{ asset.uid }}" disabled>Mark as Returned</button>
     {% endif %}
-        <button id="detail-delete-asset-btn" class="uk-button uk-button-danger delete-asset-btn" data-uid="{{ asset.uid }}">Delete Asset</button>
+        <button id="detail-delete-asset-btn" class="uk-margin-small-top uk-button uk-button-danger delete-asset-btn" data-uid="{{ asset.uid }}">Delete Asset</button>
+    </div>
 </dl>
 {% endif %}
 {% endblock %}
