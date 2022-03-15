@@ -1,9 +1,11 @@
 {% extends 'layout.html' %}
 
+{% block title%}Create Your Account{% endblock %}
+
 {% block main %}
 
-<h1 class="uk-margin-left uk-heading-divider">Create New User Account</h1>
-<form method="POST" class="uk-margin-left">
+<h1 class="uk-margin-left uk-heading-divider">Create Your Account</h1>
+<form method="POST" class="uk-margin-left uk-margin-bottom uk-form-stacked">
     {% csrf_token %}
     {% for field in registration_form %}
         {{ field.label_tag }}

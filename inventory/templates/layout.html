@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Inventory - {% block title %}{% endblock %}</title>
+        <title>Commune - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
     </head>
     
@@ -31,7 +31,7 @@
                     {% else %}
                     <ul class="uk-navbar-nav">
                         <li><a href="{% url 'login' %}">Login</a></li>
-                        <li><a href="/register">Sign Up</a></li>
+                        <li><a href="{% url 'register' %}">Sign Up</a></li>
                     </ul>
                     {% endif %}
                 </div>
@@ -40,7 +40,7 @@
                 <div uk-dropdown="mode: click; pos: top-right; offset: 10">
                     <p>Hello, {{ user.get_username }}!</p>
                     <ul class="uk-nav uk-dropdown-nav">
-                        <li><a href="#">Change Password</a></li>
+                        <li><a href="{% url 'change_password' %}">Change Password</a></li>
                         <li><a href="{% url 'logout' %}" class="uk-icon" uk-icon="sign-out">Logout</a></li>
                     </ul>
                 </div>
@@ -49,8 +49,6 @@
         </header>
         
         {% block main %}{% endblock %}
-        
-        <footer></footer>
 
         <script src="{% static 'js/uikit.min.js' %}"></script>
         <script src="{% static 'js/uikit-icons.min.js' %}"></script>
