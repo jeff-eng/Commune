@@ -25,7 +25,6 @@ urlpatterns = [
     # Directs to the urls.py file within the inventory app
     path('', include('inventory.urls')),
     path('register/', account_views.UserRegistrationView.as_view(), name='register'),
-    # path('change-password/', auth_views.PasswordChangeView.as_view(template_name='account/change_password.html'), name='change_password'),
     path('change_password/', account_views.ChangePasswordView.as_view(template_name='account/change_password.html'), name='change_password'),
     path('password_success/', account_views.password_success, name='password_success')
 ]

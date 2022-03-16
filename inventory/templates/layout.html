@@ -15,15 +15,15 @@
                     <a class="uk-navbar-item uk-logo" href="/" alt="Home Page"><span uk-icon="icon: database; ratio: 3"></span></a>
                     {% if user.is_authenticated %}
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="/dashboard">Dashboard</a></li>
+                        <li class="uk-active"><a href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li>
                             <a href="#">Manage</a>
                             <div class="uk-navbar-dropdown">
                                 <ul class="uk-nav uk-navbar-dropdown-nav">
                                     <li class="uk-nav-header">Actions</li>
-                                    <li><a href="/add-asset"><span uk-icon="plus-circle"></span>  Add New Asset</a></li>
-                                    <li><a href="/manage-assets"><span uk-icon="pencil"></span>  Manage Assets</a></li>
-                                    <li><a href="/manage-borrowers"><span uk-icon="users"></span>  Manage Borrowers</a></li>
+                                    <li><a href="{% url 'add-asset' %}"><span uk-icon="plus-circle"></span>  Add New Asset</a></li>
+                                    <li><a href="{% url 'manage-assets' %}"><span uk-icon="pencil"></span>  Manage Assets</a></li>
+                                    <li><a href="{% url 'manage-borrowers' %}"><span uk-icon="users"></span>  Manage Borrowers</a></li>
                                 </ul>
                             </div>
                         </li>

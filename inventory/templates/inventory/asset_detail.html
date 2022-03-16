@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% load static %}
-{% block title %} Details {% endblock %}
+{% block title %} Item Details for {{ asset.name }}{% endblock %}
 {% block main %}
-<a href="/dashboard"><span uk-icon="chevron-left"></span>Return to Dashboard</a>
+<a href="{% url 'dashboard' %}"><span uk-icon="chevron-left"></span>Return to Dashboard</a>
 
 {% if user.is_authenticated and user == asset.owner %}
 <h1 id="asset-detail-header" class="uk-heading-divider uk-padding" data-uid="{{ asset.uid }}">{{ asset.name }}</h1>
