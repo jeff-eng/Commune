@@ -18,15 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from inventory.api import api_views
+from . import views
 
 
 urlpatterns = [
+    path('', views.index),
     path('admin/', admin.site.urls),
     # Directs to the urls.py file within the inventory app
     path('', include('inventory.urls')),
     path('register/', account_views.UserRegistrationView.as_view(), name='register'),
     path('change_password/', account_views.ChangePasswordView.as_view(template_name='account/change_password.html'), name='change_password'),
-    path('password_success/', account_views.password_success, name='password_success')
+    path('password_success/', account_views.password_success, name='password_success'),
+    path('about/', views.about, name='about')
 ]
 
 urlpatterns += [
