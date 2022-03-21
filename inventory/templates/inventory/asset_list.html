@@ -9,7 +9,7 @@
                     <th>Item Name</th>
                     <th>Borrower</th>
                     <th>Return Date</th>
-                    <th>Overdue</th>
+                    <th class="uk-table-shrink">Overdue</th>
                 </thead>
                 {% for asset in page_obj %}
                     <tr data-uid="{{ asset.uid }}">
@@ -17,7 +17,7 @@
                         <td>{{ asset.borrower }}</td>
                         <td>{{ asset.return_date|date:"F jS, Y" }}</td>
                         {% if asset.is_dueback %}
-                            <td>Yes</td>
+                            <td><span class="uk-label uk-label-danger">Yes</span></td>
                         {% else %}
                             <td>No</td>
                         {% endif %}

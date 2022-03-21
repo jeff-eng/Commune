@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'inventory',
     'account',
+    'communeapp',
 ]
 
 MIDDLEWARE = [
@@ -135,8 +136,13 @@ LOGIN_REDIRECT_URL = '/dashboard'
 # Redirect to home URL after logout
 LOGOUT_REDIRECT_URL = '/'
 
-# FOR TESTING ONLY #
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SMTP Configuration 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Sends to CLI for testing purposes
+# EMAIL_HOST = '' mail service smtp
+# EMAIL_PORT = '' 
+# EMAIL_USE_TLS = ''
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
