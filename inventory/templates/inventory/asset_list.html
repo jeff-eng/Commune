@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block main %}
+    {% if user.is_authenticated %}
+        <div class="uk-margin-left">
+            <h1 class="uk-heading-divider">Dashboard</h1>
+            <table class="uk-table uk-table-divider uk-table-hover">
+                <thead>
+                    <th>Item Name</th>
+                    <th>Borrower</th>
+                    <th>Return Date</th>
+                    <th class="uk-table-shrink">Overdue</th>
+                </thead>
+                {% for asset in page_obj %}
+                    <tr data-uid="{{ asset.uid }}">
+                        <td><a href="{{ asset.get_absolute_url }}">{{ asset.name }}</a></td>
+                        <td>{{ asset.borrower }}</td>
+                        <td>{{ asset.return_date|date:"F jS, Y" }}</td>
+                        {% if asset.is_dueback %}
+                            <td><span class="uk-label uk-label-danger">Yes</span></td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+            <ul class="uk-pagination uk-flex uk-flex-center">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page=1" class="uk-align-right">&laquo;</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}"><span class="uk-margin-small-right" uk-pagination-previous></span> prev</a></li>
+                {% else %}
+                    <li class="uk-align-right"><span class="uk-disabled">&laquo;</span></li>
+                    <li class="uk-margin-small-right"><div><span class="uk-margin-small-right uk-disabled" uk-pagination-previous></span> prev</div></li>
+                {% endif %}
+                
+                <li class="uk-margin-remove">
+                        {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </li>
+        
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">next<span class="uk-margin-small-left" uk-pagination-next></span></a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}" class="uk-align-left">&raquo;</a></li>
+                {% else %}
+                    <li class="uk-margin-small-left"><div>next<span class="uk-margin-small-left uk-disabled" uk-pagination-next></span></div></li>
+                    <li class="uk-align-left"><div><span class="uk-margin-small-left uk-disabled">&raquo;</span></div></li>
+                {% endif %}
+            </ul>
+
+        
+    {% else %}
+        <p>You must be logged in to view your inventory dashboard.</p>
+    {% endif %}
+{% endblock %}
+{% block script %}{% endblock %}

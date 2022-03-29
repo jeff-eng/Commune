@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main %}
+
+<section>
+    <h1 class="uk-heading-large uk-heading-line uk-text-center">Commune</h1>
+    <h2 class="uk-heading-small uk-text-center">A library-style checkout system for your stuff</h2>
+
+    <div class="uk-child-width-1-2@s" uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                <h3 class="uk-card-title">Manage Your Stuff</h3>
+                <p>Create and keep track of items in your inventory.</p>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                <h3 class="uk-card-title">Check Out</h3>
+                <p>Loan out your stuff and set return due dates.</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

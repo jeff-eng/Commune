@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block main %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page.  To proceed, please login with an account that has access.</p>
+    {% else %}
+        <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<div class="uk-container">
+    <form class="uk-form uk-position-relative uk-position-top-center" action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <input class="uk-input uk-form-width-large" type="text" name="username" placeholder="me@example.com" autofocus required id="id_username" autocomplete="off">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <input class="uk-input uk-form-width-large" type="password" name="password" placeholder="Enter Password" required id="id_password" autocomplete="off">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <input class="uk-input" type="submit" value="LOGIN">
+                <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+                <p><a href="{% url 'register' %}">Create New User Account</a></p>
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if form.errors %}
+    <p class="uk-padding-small uk-alert-danger">Unable to log in with those credentials. Try again.</p>
+{% endif %}
+
+{% endblock %}
