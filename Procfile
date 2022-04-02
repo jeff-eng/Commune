@@ -1,1 +1,1 @@
-web:gunicorn commune.wsgi --log-file -
+web:python manage.py migrate && gunicorn communeapp.wsgi --log-file -
